@@ -1,0 +1,1 @@
+const MAX_PLAYER_WIDTH = 400.0;

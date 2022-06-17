@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 58 (84663) - https://sketch.com -->
+    <title>Icon / list</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Icon-/-list" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M11,9 L3,9 C2.45,9 2,9.45 2,10 C2,10.55 2.45,11 3,11 L11,11 C11.55,11 12,10.55 12,10 C12,9.45 11.55,9 11,9 Z M13,5 L3,5 C2.45,5 2,5.45 2,6 C2,6.55 2.45,7 3,7 L13,7 C13.55,7 14,6.55 14,6 C14,5.45 13.55,5 13,5 Z M21.5001299,15.5101189 L21.4923547,15.6125856 C21.2450777,17.3953013 15.1716068,21.2466853 13.6471248,20.2848921 C12.1227979,19.3231967 12.1143327,11.6962501 13.6427105,10.7207912 C15.213958,9.71797152 21.5152764,13.7616028 21.5001299,15.5101189 Z M9,13 C9.55,13 10,13.45 10,14 C10,14.55 9.55,15 9,15 L9,15 L3,15 C2.45,15 2,14.55 2,14 C2,13.45 2.45,13 3,13 L3,13 Z" id="Shape" fill="#000000" fill-rule="nonzero"></path>
+    </g>
+</svg>

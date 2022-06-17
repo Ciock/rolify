@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 58 (84663) - https://sketch.com -->
+    <title>Icon / playlist</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Icon-/-playlist" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M14,5 L4,5 C3.45,5 3,5.45 3,6 C3,6.55 3.45,7 4,7 L14,7 C14.55,7 15,6.55 15,6 C15,5.45 14.55,5 14,5 Z M14,9 L4,9 C3.45,9 3,9.45 3,10 C3,10.55 3.45,11 4,11 L14,11 C14.55,11 15,10.55 15,10 C15,9.45 14.55,9 14,9 Z M4,15 L10,15 C10.55,15 11,14.55 11,14 C11,13.45 10.55,13 10,13 L4,13 C3.45,13 3,13.45 3,14 C3,14.55 3.45,15 4,15 Z M19,5 C17.9,5 17,5.9 17,7 L17,13.18 C16.69,13.07 16.35,13 16,13 C14.16,13 12.72,14.64 13.05,16.54 C13.26,17.75 14.25,18.74 15.46,18.95 C17.36,19.28 19,17.84 19,16 L19,7 L21,7 C21.55,7 22,6.55 22,6 C22,5.45 21.55,5 21,5 L19,5 Z" id="Shape" fill="#000000" fill-rule="nonzero"></path>
+    </g>
+</svg>

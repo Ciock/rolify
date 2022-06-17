@@ -1,0 +1,18 @@
+const assetImages = [
+  'assets/images/battlefield.jpg',
+  'assets/images/cavern.jpg',
+  'assets/images/chtulhu.jpg',
+  'assets/images/deer.jpg',
+  'assets/images/demon.jpg',
+  'assets/images/drake.jpg',
+  'assets/images/forest.jpg',
+  'assets/images/heaven.jpg',
+  'assets/images/leon.jpg',
+  'assets/images/market.jpg',
+  'assets/images/prison_lady.jpg',
+  'assets/images/rain.jpg',
+  'assets/images/sea.jpg',
+  'assets/images/tavern.jpg',
+  'assets/images/undead.jpg',
+  'assets/images/world.jpg',
+];
