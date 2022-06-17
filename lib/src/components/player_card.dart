@@ -166,7 +166,7 @@ class _PlayerWidgetState extends State<PlayerWidget> {
     setState(() {
       loopAudio = value;
     });
-    AudioServiceCommands.loop(value, widget.audio);
+    AudioServiceCommands.setLoop(value, widget.audio);
   }
 
   Future<void> checkIfIsPlaying() async {

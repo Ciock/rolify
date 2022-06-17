@@ -62,6 +62,7 @@ class MyAudioHandler extends BaseAudioHandler with QueueHandler, SeekHandler {
           : await audioPlayer.setFilePath(audio.path);
       audioPlayer.setVolume(0.5);
       audioPlayers[audio.path] = {'audio_player': audioPlayer, 'loop': true};
+      audioPlayer.setLoopMode(LoopMode.one);
       return audioPlayer;
     }
   }
@@ -70,30 +71,9 @@ class MyAudioHandler extends BaseAudioHandler with QueueHandler, SeekHandler {
     mediaItem.add(mockMediaItem);
 
     audioPlayer.play().then((_) async {
-      bool loopAudio = true;
-      for (String key in audioPlayers.keys) {
-        if (audioPlayers[key]!['audio_player'] == audioPlayer) {
-          loopAudio = audioPlayers[key]!['loop'];
-          break;
-        }
-      }
-      if (audioPlayer.playing ||
-          audioPlayer.processingState == ProcessingState.completed) {
+      if (audioPlayer.playing) {
         await audioPlayer.stop();
-        if (loopAudio && stoppingAll == false) {
-          playAudioPlayer(audioPlayer);
-        }
-      } else {
-        final audioDuration = await audioPlayer.durationFuture;
-        if (audioDuration != null &&
-            (audioDuration.inMilliseconds -
-                        audioPlayer.playbackEvent.updatePosition.inMilliseconds)
-                    .abs() <=
-                1000) {
-          if (loopAudio && stoppingAll == false) {
-            playAudioPlayer(audioPlayer);
-          }
-        }
+        await audioPlayer.seek(Duration.zero);
       }
     });
 
@@ -172,6 +152,7 @@ class MyAudioHandler extends BaseAudioHandler with QueueHandler, SeekHandler {
         }
         if (name == 'loop') {
           audioPlayers[audio.path]?['loop'] = param;
+          audioPlayer.setLoopMode(param ? LoopMode.one : LoopMode.off);
         }
       } else {
         if (name == 'play') {

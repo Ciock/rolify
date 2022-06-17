@@ -22,7 +22,7 @@ class AudioServiceCommands {
     eventBus.fire(AudioPaused(audio.path));
   }
 
-  static loop(bool value, Audio audio) async {
+  static setLoop(bool value, Audio audio) async {
     AppState()
         .audioHandler
         .customAction('loop', {"audio": audio.toJson(), "param": value});
