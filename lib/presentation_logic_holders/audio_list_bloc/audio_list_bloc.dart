@@ -6,7 +6,7 @@ import 'audio_list_state.dart';
 class AudioListBloc extends Bloc<AudioListEvent, AudioListState> {
   AudioListBloc() : super(Initialized()) {
     on<AudioListUpdate>(
-      (event, emit) => AudioListEdited(event.audios),
+      (event, emit) => emit(AudioListEdited(event.audios)),
     );
   }
 }

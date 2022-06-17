@@ -17,9 +17,10 @@ import 'package:rolify/src/components/my_icons.dart';
 import 'package:rolify/src/components/player_card.dart';
 import 'package:rolify/src/components/radio.dart';
 import 'package:rolify/src/theme/texts.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class AllSound extends StatefulWidget {
+  const AllSound({Key? key}) : super(key: key);
+
   @override
   _AllSoundState createState() => _AllSoundState();
 }
@@ -39,20 +40,22 @@ class _AllSoundState extends State<AllSound> with WidgetsBindingObserver {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     eventBus.on<AudioPlayed>().listen((event) {
-      if (mounted)
+      if (mounted) {
         setState(() {
           audioToPauseExist = PlayingSounds().playingAudios.isNotEmpty;
           audioToReplayExist = PlayingSounds().pausedAudios.isNotEmpty;
           pauseAll = audioToPauseExist;
         });
+      }
     });
     eventBus.on<AudioPaused>().listen((event) {
-      if (mounted)
+      if (mounted) {
         setState(() {
           audioToPauseExist = PlayingSounds().playingAudios.isNotEmpty;
           audioToReplayExist = PlayingSounds().pausedAudios.isNotEmpty;
           pauseAll = audioToPauseExist;
         });
+      }
     });
     initAudios();
   }
@@ -94,7 +97,7 @@ class _AllSoundState extends State<AllSound> with WidgetsBindingObserver {
               padding: const EdgeInsets.only(left: 24.0, right: 24.0),
               child: Column(
                 children: <Widget>[
-                  Container(
+                  SizedBox(
                     height: 56 * heightFactor,
                     child: Align(
                       alignment: Alignment.topCenter,
@@ -105,10 +108,12 @@ class _AllSoundState extends State<AllSound> with WidgetsBindingObserver {
                               style: NeumorphicStyle(
                                 depth: -5.0,
                                 boxShape: NeumorphicBoxShape.roundRect(
-                                    BorderRadius.all(Radius.circular(20.0))),
+                                    const BorderRadius.all(
+                                        Radius.circular(20.0))),
                               ),
-                              padding: EdgeInsets.only(left: 16.0, right: 16.0),
-                              child: Container(
+                              padding: const EdgeInsets.only(
+                                  left: 16.0, right: 16.0),
+                              child: SizedBox(
                                 height: 40 * heightFactor,
                                 child: Row(
                                   children: <Widget>[
@@ -135,9 +140,7 @@ class _AllSoundState extends State<AllSound> with WidgetsBindingObserver {
                                                           .currentTheme(context)
                                                       .disabledColor,
                                             )),
-                                    SizedBox(
-                                      width: 8.0,
-                                    ),
+                                    const SizedBox(width: 8.0),
                                     Expanded(
                                       child: TextField(
                                         controller: filterController,
@@ -161,13 +164,13 @@ class _AllSoundState extends State<AllSound> with WidgetsBindingObserver {
                                         },
                                       ),
                                     ),
-                                    SizedBox(height: 16.0),
+                                    const SizedBox(height: 16.0),
                                   ],
                                 ),
                               ),
                             ),
                           ),
-                          SizedBox(width: 8.0),
+                          const SizedBox(width: 8.0),
                           MyButton(
                             icon: MyIcons.add,
                             onTap: () => _openFileExplorer(context),
@@ -178,8 +181,8 @@ class _AllSoundState extends State<AllSound> with WidgetsBindingObserver {
                   ),
                   Expanded(
                     child: ListView(
-                      padding: EdgeInsets.only(bottom: 148),
-                      physics: BouncingScrollPhysics(),
+                      padding: const EdgeInsets.only(bottom: 148),
+                      physics: const BouncingScrollPhysics(),
                       children: [
                         Wrap(
                           children: filteredAudios
@@ -200,13 +203,13 @@ class _AllSoundState extends State<AllSound> with WidgetsBindingObserver {
             child: Padding(
               padding: EdgeInsets.symmetric(
                   vertical: 16.0 * heightFactor, horizontal: 16.0),
-              child: Container(
+              child: SizedBox(
                 height: 133 * heightFactor,
                 child: Neumorphic(
                   curve: Curves.ease,
                   style: NeumorphicStyle(
                     boxShape: NeumorphicBoxShape.roundRect(
-                        BorderRadius.all(Radius.circular(12.0))),
+                        const BorderRadius.all(Radius.circular(12.0))),
                   ),
                   child: Padding(
                     padding: EdgeInsets.symmetric(
@@ -266,12 +269,7 @@ class _AllSoundState extends State<AllSound> with WidgetsBindingObserver {
                                 padding: const EdgeInsets.only(left: 8.0),
                                 child: Align(
                                   alignment: Alignment.centerLeft,
-                                  child: AppState().isDonationEnabled
-                                      ? MyButton(
-                                          icon: MyIcons.love,
-                                          onTap: _goToTipeee,
-                                        )
-                                      : Container(),
+                                  child: Container(),
                                 ),
                               ),
                             ),
@@ -317,16 +315,16 @@ class _AllSoundState extends State<AllSound> with WidgetsBindingObserver {
   }
 
   void _openFileExplorer(BuildContext context) async {
-    List<PlatformFile>? _paths;
+    List<PlatformFile>? paths;
     try {
       final result = await FilePicker.platform.pickFiles(type: FileType.audio);
-      _paths = result?.files;
+      paths = result?.files;
     } on PlatformException catch (e) {
-      print("Unsupported operation" + e.toString());
+      debugPrint("Unsupported operation $e");
     }
-    if (!mounted || _paths == null) return;
+    if (!mounted || paths == null) return;
     final allAudios = await AudioData.getAllAudios();
-    _paths.forEach((file) {
+    for (var file in paths) {
       final name = file.name.replaceAll('_', ' ').replaceAll('.mp3', '');
       final audio = Audio(
           name: name,
@@ -335,7 +333,7 @@ class _AllSoundState extends State<AllSound> with WidgetsBindingObserver {
       if (allAudios.contains(audio) == false) {
         allAudios.add(audio);
       }
-    });
+    }
     AudioData.saveAllAudios(context, allAudios).then((value) {
       resetTextFilter(context);
     });
@@ -351,7 +349,7 @@ class _AllSoundState extends State<AllSound> with WidgetsBindingObserver {
     for (final audio in pausedAudios) {
       PlayingSounds().replayAudio(audio);
       AudioServiceCommands.play(audio);
-      await Future.delayed(Duration(milliseconds: 100));
+      await Future.delayed(const Duration(milliseconds: 100));
     }
   }
 
@@ -360,16 +358,7 @@ class _AllSoundState extends State<AllSound> with WidgetsBindingObserver {
     for (final audio in playingAudios) {
       PlayingSounds().pauseAudio(audio);
       AudioServiceCommands.stop(audio);
-      await Future.delayed(Duration(milliseconds: 100));
-    }
-  }
-
-  _goToTipeee() async {
-    const url = 'https://en.tipeee.com/luca-oropallo/';
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
+      await Future.delayed(const Duration(milliseconds: 100));
     }
   }
 

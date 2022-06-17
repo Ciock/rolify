@@ -6,7 +6,7 @@ import 'playlist_list_state.dart';
 class PlaylistListBloc extends Bloc<PlaylistListEvent, PlaylistListState> {
   PlaylistListBloc() : super(Initialized()) {
     on<PlaylistListUpdate>(
-      (event, emit) => PlaylistListEdited(event.playlist),
+      (event, emit) => emit(PlaylistListEdited(event.playlist)),
     );
   }
 }

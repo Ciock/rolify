@@ -38,22 +38,25 @@ class _PlayerWidgetState extends State<PlayerWidget> {
       checkIfIsPlaying();
     });
     eventBus.on<AudioPlayed>().listen((event) {
-      if (event.path == widget.audio.path && mounted)
+      if (event.path == widget.audio.path && mounted) {
         setState(() {
           isPlaying = true;
         });
+      }
     });
     eventBus.on<AudioPaused>().listen((event) {
-      if (event.path == widget.audio.path && mounted)
+      if (event.path == widget.audio.path && mounted) {
         setState(() {
           isPlaying = false;
         });
+      }
     });
     eventBus.on<ToggleLoop>().listen((event) {
-      if (event.path == widget.audio.path && mounted)
+      if (event.path == widget.audio.path && mounted) {
         setState(() {
           loopAudio = event.value;
         });
+      }
     });
 
     audioImage = widget.audio.image;
@@ -104,7 +107,7 @@ class _PlayerWidgetState extends State<PlayerWidget> {
                         value: loopAudio,
                         onChanged: toggleLoop,
                       ),
-                      SizedBox(width: 8.0),
+                      const SizedBox(width: 8.0),
                       MyRadio(
                         icon: isPlaying ? MyIcons.pause : MyIcons.play,
                         value: isPlaying,
@@ -116,7 +119,7 @@ class _PlayerWidgetState extends State<PlayerWidget> {
                           }
                         },
                       ),
-                      SizedBox(width: 8.0),
+                      const SizedBox(width: 8.0),
                       MyButton(
                         icon: MyIcons.edit,
                         onTap: () => BlocProvider.of<AudioEditBloc>(context)
@@ -127,7 +130,7 @@ class _PlayerWidgetState extends State<PlayerWidget> {
                 ),
               ],
             ),
-            SizedBox(height: 14),
+            const SizedBox(height: 14),
             StreamBuilder<double>(
               stream: _volumeSubject.stream,
               builder: (context, snapshot) => MySlider(

@@ -4,27 +4,27 @@ import 'package:audio_service/audio_service.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:rolify/entities/audio.dart';
 
-MediaControl playControl = MediaControl(
+MediaControl playControl = const MediaControl(
   androidIcon: 'drawable/ic_action_play_arrow',
   label: 'Play',
   action: MediaAction.play,
 );
-MediaControl pauseControl = MediaControl(
+MediaControl pauseControl = const MediaControl(
   androidIcon: 'drawable/ic_action_pause',
   label: 'Pause',
   action: MediaAction.pause,
 );
-MediaControl skipToNextControl = MediaControl(
+MediaControl skipToNextControl = const MediaControl(
   androidIcon: 'drawable/ic_action_skip_next',
   label: 'Next',
   action: MediaAction.skipToNext,
 );
-MediaControl skipToPreviousControl = MediaControl(
+MediaControl skipToPreviousControl = const MediaControl(
   androidIcon: 'drawable/ic_action_skip_previous',
   label: 'Previous',
   action: MediaAction.skipToPrevious,
 );
-MediaControl stopControl = MediaControl(
+MediaControl stopControl = const MediaControl(
   androidIcon: 'drawable/ic_action_stop',
   label: 'Stop',
   action: MediaAction.stop,
@@ -39,12 +39,10 @@ class AudioPlayerTask extends BackgroundAudioTask {
   List<AudioPlayer> playingAudio = [];
   List<AudioPlayer> pausedAudio = [];
   bool stoppingAll = false;
-  Completer _completer = Completer();
+  Completer completer = Completer();
 
   bool get _playing => playingAudio.isNotEmpty;
-  final mediaItem =
-      // MediaItem(id: "media", title: "Rolify", album: "Roleplay Soundboard");
-      MediaItem(
+  final mediaItem = const MediaItem(
     id: "id",
     album: "For awesome roleplayers",
     title: "Rolify",
@@ -68,10 +66,11 @@ class AudioPlayerTask extends BackgroundAudioTask {
   }
 
   void playPause() {
-    if (AudioServiceBackground.state.playing)
+    if (AudioServiceBackground.state.playing) {
       onPause();
-    else
+    } else {
       onPlay();
+    }
   }
 
   void play(AudioPlayer audioPlayer) {
@@ -80,19 +79,15 @@ class AudioPlayerTask extends BackgroundAudioTask {
       // print('state: ${audioPlayer.playbackState}');
 
       bool loopAudio = true;
-      String audioPath = '';
       for (String key in audioPlayers.keys) {
         if (audioPlayers[key]!['audio_player'] == audioPlayer) {
           loopAudio = audioPlayers[key]!['loop'];
-          audioPath = key;
           break;
         }
       }
       if (audioPlayer.playing ||
           audioPlayer.processingState == ProcessingState.completed) {
-        print('Audio stop playing');
         await audioPlayer.stop();
-        print('Audio stop');
         if (loopAudio && stoppingAll == false) {
           play(audioPlayer);
         } else {
@@ -159,7 +154,7 @@ class AudioPlayerTask extends BackgroundAudioTask {
       await audioPlayers[key]!['audio_player'].stop();
     }
     playingAudio = [];
-    _completer.complete();
+    completer.complete();
     await super.onStop();
   }
 

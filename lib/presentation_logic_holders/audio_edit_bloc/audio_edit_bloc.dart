@@ -6,19 +6,19 @@ import 'package:rolify/presentation_logic_holders/audio_edit_bloc/audio_edit_sta
 
 class AudioEditBloc extends Bloc<AudioEditEvent, AudioEditState> {
   AudioEditBloc() : super(NoEditing()) {
-    on<EnableEditing>((event, emit) => AudioEditing(event.audio));
+    on<EnableEditing>((event, emit) => emit(AudioEditing(event.audio)));
     on<ConfirmEditing>((event, emit) {
       AudioData.updateAudio(event.context, event.audio);
-      return NoEditing();
+      emit(NoEditing());
     });
-    on<CancelEditing>((event, emit) => NoEditing());
-    on<DeleteAudio>((event, emit) {
-      AudioData.getAllAudios().then((audios) {
-        audios.remove(event.audio);
-        PlaylistData.deleteAudioFromAllPlaylist(event.context, event.audio);
-        AudioData.saveAllAudios(event.context, audios);
-      });
-      return NoEditing();
+    on<CancelEditing>((event, emit) => emit(NoEditing()));
+    on<DeleteAudio>((event, emit) async {
+      final audios = await AudioData.getAllAudios();
+      audios.remove(event.audio);
+      PlaylistData.deleteAudioFromAllPlaylist(event.context, event.audio);
+      AudioData.saveAllAudios(event.context, audios);
+
+      emit(NoEditing());
     });
   }
 }

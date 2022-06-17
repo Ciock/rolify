@@ -1,6 +1,5 @@
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:launch_review/launch_review.dart';
-import 'package:rolify/presentation_logic_holders/singletons/app_state.dart';
 import 'package:rolify/src/theme/texts.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -11,8 +10,8 @@ class InfoPage extends StatelessWidget {
       children: <Widget>[
         ListView(
           physics: BouncingScrollPhysics(),
-          padding: EdgeInsets.only(
-              left: 24.0, right: 24.0, top: 16.0, bottom: 96.0),
+          padding:
+              EdgeInsets.only(left: 24.0, right: 24.0, top: 16.0, bottom: 96.0),
           children: <Widget>[
             Row(
               children: <Widget>[
@@ -66,33 +65,6 @@ class InfoPage extends StatelessWidget {
             ),
           ],
         ),
-        if(AppState().isDonationEnabled)
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: Padding(
-            padding: EdgeInsets.only(
-                top: 16.0, bottom: 32.0, left: 16.0, right: 16.0),
-            child: Container(
-              width: double.infinity,
-              child: NeumorphicButton(
-                onPressed: _goToTipeee,
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                        child: MyText.button(
-                      'Buy me a coffee',
-                      fontWeight: FontWeight.w500,
-                    )),
-                    Image.asset(
-                      'assets/icons/tipeee_logo.png',
-                      height: 20,
-                    )
-                  ],
-                ),
-              ),
-            ),
-          ),
-        )
       ],
     );
   }
