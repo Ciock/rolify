@@ -18,7 +18,6 @@ dependencies:
   flutter_launcher_icons: ^0.9.3
   flutter_neumorphic: ^3.2.0
   flutter_svg: ^1.1.0
-  flutter_tts: ^3.4.0
   just_audio: ^0.9.24
   launch_review: ^3.0.1
   shared_preferences: ^2.0.15

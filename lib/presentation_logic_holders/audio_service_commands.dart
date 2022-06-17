@@ -1,48 +1,49 @@
-import 'package:audio_service/audio_service.dart';
 import 'package:rolify/entities/audio.dart';
-import 'package:rolify/presentation_logic_holders/audio_service_background.dart';
+import 'package:rolify/presentation_logic_holders/audio_handler.dart';
 import 'package:rolify/presentation_logic_holders/event_bus/stop_all_event_bus.dart';
 import 'package:rolify/presentation_logic_holders/playing_sounds_singleton.dart';
+import 'package:rolify/presentation_logic_holders/singletons/app_state.dart';
 
 class AudioServiceCommands {
   static Future<bool> startAudioService() async {
-    return AudioService.start(
-      backgroundTaskEntrypoint: audioPlayerTaskEntrypoint,
-      androidNotificationChannelName: 'Audio Service Demo',
-      androidNotificationColor: 0xFF2196f3,
-      androidNotificationIcon: 'mipmap/ic_launcher',
-      androidEnableQueue: true,
-      androidStopForegroundOnPause: true,
-    );
+    await initAudioService();
+    return true;
   }
 
   static play(Audio audio) async {
     PlayingSounds().playAudio(audio);
     eventBus.fire(AudioPlayed(audio.path));
-    await startAudioService();
-    AudioService.customAction('play', audio.toJson());
+    AppState().audioHandler.customAction('play', {"audio": audio.toJson()});
   }
 
   static stop(Audio audio) async {
     PlayingSounds().removeAudio(audio);
-    AudioService.customAction('stop', audio.toJson());
+    AppState().audioHandler.customAction('stop', {"audio": audio.toJson()});
     eventBus.fire(AudioPaused(audio.path));
   }
 
   static loop(bool value, Audio audio) async {
-    AudioService.customAction('loop', {audio.toJson(): value});
+    AppState()
+        .audioHandler
+        .customAction('loop', {"audio": audio.toJson(), "param": value});
     eventBus.fire(ToggleLoop(audio.path, value));
   }
 
   static Future getLoop(Audio audio) async {
-    return AudioService.customAction('get_loop', audio.toJson());
+    return AppState()
+        .audioHandler
+        .customAction('get_loop', {"audio": audio.toJson()});
   }
 
   static Future setVolume(Audio audio, double value) async {
-    return AudioService.customAction('set_volume', {audio.toJson(): value});
+    return AppState()
+        .audioHandler
+        .customAction('set_volume', {"audio": audio.toJson(), "param": value});
   }
 
   static Future getVolume(Audio audio) async {
-    return AudioService.customAction('get_volume', audio.toJson());
+    return AppState()
+        .audioHandler
+        .customAction('get_volume', {"audio": audio.toJson()});
   }
 }
