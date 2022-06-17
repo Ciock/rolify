@@ -5,6 +5,7 @@ import 'package:rolify/data/audios.dart';
 import 'package:rolify/entities/audio.dart';
 import 'package:rolify/presentation_logic_holders/audio_edit_bloc/audio_edit_bloc.dart';
 import 'package:rolify/presentation_logic_holders/audio_edit_bloc/audio_edit_event.dart';
+import 'package:rolify/presentation_logic_holders/audio_handler.dart';
 import 'package:rolify/presentation_logic_holders/audio_service_commands.dart';
 import 'package:rolify/presentation_logic_holders/event_bus/stop_all_event_bus.dart';
 import 'package:rolify/presentation_logic_holders/singletons/app_state.dart';
@@ -23,10 +24,10 @@ class PlayerWidget extends StatefulWidget {
   const PlayerWidget({Key? key, required this.audio}) : super(key: key);
 
   @override
-  _PlayerWidgetState createState() => _PlayerWidgetState();
+  PlayerWidgetState createState() => PlayerWidgetState();
 }
 
-class _PlayerWidgetState extends State<PlayerWidget> {
+class PlayerWidgetState extends State<PlayerWidget> {
   final _volumeSubject = BehaviorSubject.seeded(0.5);
   late String audioImage;
   bool loopAudio = true, isPlaying = false;
@@ -55,6 +56,14 @@ class _PlayerWidgetState extends State<PlayerWidget> {
       if (event.path == widget.audio.path && mounted) {
         setState(() {
           loopAudio = event.value;
+        });
+      }
+    });
+    AppState().audioHandler.customEvent.listen((event) {
+      if (event['name'] == AudioCustomEvents.audioEnded &&
+          event['audioPath'] == widget.audio.path) {
+        setState(() {
+          isPlaying = false;
         });
       }
     });

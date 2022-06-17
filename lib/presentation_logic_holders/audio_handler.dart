@@ -28,6 +28,8 @@ MediaControl stopControl = const MediaControl(
   action: MediaAction.stop,
 );
 
+enum AudioCustomEvents { audioEnded }
+
 Future<AudioHandler> initAudioService() async {
   return await AudioService.init(
     builder: () => MyAudioHandler(),
@@ -67,6 +69,12 @@ class MyAudioHandler extends BaseAudioHandler with QueueHandler, SeekHandler {
     }
   }
 
+  String _getAudioPath(AudioPlayer audioPlayer) {
+    return audioPlayers.keys.firstWhere(
+        (path) => audioPlayers[path] == audioPlayer,
+        orElse: () => '');
+  }
+
   void playAudioPlayer(AudioPlayer audioPlayer) {
     mediaItem.add(mockMediaItem);
 
@@ -74,6 +82,9 @@ class MyAudioHandler extends BaseAudioHandler with QueueHandler, SeekHandler {
       if (audioPlayer.playing) {
         await audioPlayer.stop();
         await audioPlayer.seek(Duration.zero);
+        playingAudio.remove(audioPlayer);
+        customEvent.add(createAudioCustomEvent(
+            AudioCustomEvents.audioEnded, _getAudioPath(audioPlayer)));
       }
     });
 
@@ -177,5 +188,13 @@ class MyAudioHandler extends BaseAudioHandler with QueueHandler, SeekHandler {
       return null;
     }
     return super.customAction(name, extras);
+  }
+
+  Map<String, dynamic> createAudioCustomEvent(AudioCustomEvents name,
+      [String? audioPath]) {
+    return {
+      'name': name,
+      'audioPath': audioPath,
+    };
   }
 }
