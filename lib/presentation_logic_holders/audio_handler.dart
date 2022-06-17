@@ -41,7 +41,7 @@ Future<AudioHandler> initAudioService() async {
 }
 
 class MyAudioHandler extends BaseAudioHandler with QueueHandler, SeekHandler {
-  Map<String, Map<String, dynamic>> audioPlayers = {};
+  Map<String, AudioPlayer> audioPlayers = {};
   List<AudioPlayer> playingAudio = [];
   List<AudioPlayer> pausedAudio = [];
   bool stoppingAll = false;
@@ -54,14 +54,14 @@ class MyAudioHandler extends BaseAudioHandler with QueueHandler, SeekHandler {
 
   Future<AudioPlayer> getAudioPlayer(Audio audio) async {
     if (audioPlayers.containsKey(audio.path)) {
-      return audioPlayers[audio.path]!['audio_player'];
+      return audioPlayers[audio.path]!;
     } else {
       final audioPlayer = AudioPlayer();
       audio.audioSource == LocalAudioSource.assets
           ? await audioPlayer.setAsset(audio.path)
           : await audioPlayer.setFilePath(audio.path);
       audioPlayer.setVolume(0.5);
-      audioPlayers[audio.path] = {'audio_player': audioPlayer, 'loop': true};
+      audioPlayers[audio.path] = audioPlayer;
       audioPlayer.setLoopMode(LoopMode.one);
       return audioPlayer;
     }
@@ -122,7 +122,7 @@ class MyAudioHandler extends BaseAudioHandler with QueueHandler, SeekHandler {
   @override
   Future<void> stop() async {
     for (final key in audioPlayers.keys) {
-      await audioPlayers[key]!['audio_player'].stop();
+      await audioPlayers[key]!.stop();
     }
     playingAudio = [];
   }
@@ -151,7 +151,6 @@ class MyAudioHandler extends BaseAudioHandler with QueueHandler, SeekHandler {
           audioPlayer.setVolume(param);
         }
         if (name == 'loop') {
-          audioPlayers[audio.path]?['loop'] = param;
           audioPlayer.setLoopMode(param ? LoopMode.one : LoopMode.off);
         }
       } else {
@@ -169,7 +168,7 @@ class MyAudioHandler extends BaseAudioHandler with QueueHandler, SeekHandler {
           return audioPlayer.volume;
         }
         if (name == 'get_loop') {
-          return audioPlayers[audio.path]!['loop'];
+          return audioPlayers[audio.path]!.loopMode == LoopMode.one;
         }
       }
     }
