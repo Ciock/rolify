@@ -1,7 +1,6 @@
 import 'package:audio_service/audio_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-import 'package:rolify/data/remote_config/remote_config_helpers.dart';
 import 'package:rolify/presentation_logic_holders/audio_edit_bloc/audio_edit_bloc.dart';
 import 'package:rolify/presentation_logic_holders/audio_list_bloc/audio_list_bloc.dart';
 import 'package:rolify/presentation_logic_holders/playlist_list_bloc/playlist_list_bloc.dart';
@@ -33,7 +32,6 @@ void main() => runApp(
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    initDonationEnable();
     return MultiBlocProvider(
       providers: [
         BlocProvider<PlaylistListBloc>(create: (context) => PlaylistListBloc()),

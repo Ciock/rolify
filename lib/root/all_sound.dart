@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:launch_review/launch_review.dart';
 import 'package:rolify/data/audios.dart';
-import 'package:rolify/data/event_trackers/firebase_analytics.dart';
 import 'package:rolify/entities/audio.dart';
 import 'package:rolify/presentation_logic_holders/audio_list_bloc/audio_list_bloc.dart';
 import 'package:rolify/presentation_logic_holders/audio_list_bloc/audio_list_state.dart';
@@ -318,18 +317,14 @@ class _AllSoundState extends State<AllSound> with WidgetsBindingObserver {
   }
 
   void _openFileExplorer(BuildContext context) async {
-    FirebaseEventHandler.sendEvent('audio_add_click');
     List<PlatformFile>? _paths;
     try {
-      final result =
-          await FilePicker.platform.pickFiles(type: FileType.audio);
+      final result = await FilePicker.platform.pickFiles(type: FileType.audio);
       _paths = result?.files;
     } on PlatformException catch (e) {
       print("Unsupported operation" + e.toString());
     }
     if (!mounted || _paths == null) return;
-    FirebaseEventHandler.sendEvent(
-        'audios_added', {'number_of_audios': _paths.length});
     final allAudios = await AudioData.getAllAudios();
     _paths.forEach((file) {
       final name = file.name.replaceAll('_', ' ').replaceAll('.mp3', '');

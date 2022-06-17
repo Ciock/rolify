@@ -1,6 +1,5 @@
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:rolify/data/audios.dart';
-import 'package:rolify/data/event_trackers/firebase_analytics.dart';
 import 'package:rolify/data/playlist.dart';
 import 'package:rolify/entities/audio.dart';
 import 'package:rolify/entities/playlist.dart';
@@ -110,9 +109,6 @@ class _EditPlaylistState extends State<EditPlaylist> {
   }
 
   savePlaylist() async {
-    FirebaseEventHandler.sendEvent('playlist_saved', {
-      'name': playlistNameController.text,
-    });
     await PlaylistData.removePlaylist(context, widget.playlist);
     if (widget.playlist.audios.isNotEmpty) {
       widget.playlist.name = playlistNameController.text;

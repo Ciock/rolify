@@ -1,5 +1,4 @@
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-import 'package:rolify/data/event_trackers/firebase_analytics.dart';
 import 'package:rolify/data/playlist.dart';
 import 'package:rolify/entities/audio.dart';
 import 'package:rolify/entities/playlist.dart';
@@ -108,9 +107,6 @@ class _AddSoundToPlaylistState extends State<AddSoundToPlaylist> {
   }
 
   savePlaylist() {
-    FirebaseEventHandler.sendEvent('playlist_saved', {
-      'name': newPlaylistNameController.text,
-    });
     PlaylistData.savePlaylist(
         context,
         Playlist(

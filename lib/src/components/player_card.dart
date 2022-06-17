@@ -2,7 +2,6 @@ import 'package:audio_service/audio_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:rolify/data/audios.dart';
-import 'package:rolify/data/event_trackers/firebase_analytics.dart';
 import 'package:rolify/entities/audio.dart';
 import 'package:rolify/presentation_logic_holders/audio_edit_bloc/audio_edit_bloc.dart';
 import 'package:rolify/presentation_logic_holders/audio_edit_bloc/audio_edit_event.dart';
@@ -77,8 +76,6 @@ class _PlayerWidgetState extends State<PlayerWidget> {
                   value: audioImage,
                   onChanged: (String? value) {
                     if (value == null) return;
-                    FirebaseEventHandler.sendEvent(
-                        'new_image_selected_for_audio', {'image': value});
                     setState(() {
                       audioImage = value;
                     });

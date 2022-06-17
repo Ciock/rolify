@@ -1,6 +1,5 @@
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:rolify/data/audios.dart';
-import 'package:rolify/data/event_trackers/firebase_analytics.dart';
 import 'package:rolify/data/playlist.dart';
 import 'package:rolify/entities/audio.dart';
 import 'package:rolify/entities/playlist.dart';
@@ -41,7 +40,6 @@ class _PlaylistEditingState extends State<PlaylistEditing> {
             IconButton(
               icon: MyIcons.delete,
               onPressed: () {
-                FirebaseEventHandler.sendEvent('playlist_deleted');
                 PlaylistData.removePlaylist(context, widget.playlist)
                     .then((_) => Navigator.pop(context, false));
               },
@@ -51,10 +49,6 @@ class _PlaylistEditingState extends State<PlaylistEditing> {
             IconButton(
               icon: MyIcons.done,
               onPressed: () {
-                FirebaseEventHandler.sendEvent('playlist_saved', {
-                  'name': titleController.text,
-                  'color': colorTranslationReverse[color]
-                });
                 PlaylistData.savePlaylist(
                         context,
                         Playlist(
