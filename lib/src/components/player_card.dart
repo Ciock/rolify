@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:rolify/data/audios.dart';
 import 'package:rolify/entities/audio.dart';
 import 'package:rolify/presentation_logic_holders/audio_edit_bloc/audio_edit_bloc.dart';
@@ -69,7 +70,8 @@ class PlayerWidgetState extends State<PlayerWidget> {
       }
     });
 
-    _volumeController.add(0.5);
+    loopAudio = widget.audio.loopMode == LoopMode.one;
+    _volumeController.add(widget.audio.volume);
     audioImage = widget.audio.image;
   }
 
@@ -91,7 +93,8 @@ class PlayerWidgetState extends State<PlayerWidget> {
                       audioImage = value;
                     });
                     AudioData.updateAudio(
-                        context, widget.audio.copyFrom(image: value));
+                        context, widget.audio.copyFrom(image: value),
+                        refresh: false);
                   },
                 ),
                 Expanded(
@@ -156,11 +159,9 @@ class PlayerWidgetState extends State<PlayerWidget> {
                 min: 0.0,
                 max: 1.0,
                 height: 12,
-                value: snapshot.data ?? 1.0,
+                value: snapshot.data ?? 0,
                 onChanged: (value) {
-                  _volumeController.add(value);
-
-                  AudioServiceCommands.setVolume(widget.audio, value);
+                  setVolume(context, value);
                 },
               ),
             ),
@@ -170,11 +171,21 @@ class PlayerWidgetState extends State<PlayerWidget> {
     );
   }
 
+  void setVolume(BuildContext context, double value) {
+    _volumeController.add(value);
+    AudioServiceCommands.setVolume(widget.audio, value);
+    AudioData.updateAudio(context, widget.audio.copyFrom(volume: value),
+        refresh: false);
+  }
+
   toggleLoop(value) {
     setState(() {
       loopAudio = value;
     });
     AudioServiceCommands.setLoop(value, widget.audio);
+    AudioData.updateAudio(context,
+        widget.audio.copyFrom(loopMode: value ? LoopMode.one : LoopMode.off),
+        refresh: false);
   }
 
   Future<void> checkIfIsPlaying() async {

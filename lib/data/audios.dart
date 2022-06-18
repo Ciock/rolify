@@ -19,18 +19,20 @@ class AudioData {
     }
   }
 
-  static Future saveAllAudios(BuildContext context, List<Audio> audios) async {
+  static Future saveAllAudios(BuildContext context, List<Audio> audios,
+      {bool refresh = true}) async {
     final preferences = await SharedPreferences.getInstance();
     final encodedAudios = audios.map((audio) => audio.toJson()).toList();
     preferences.setString('audios', jsonEncode(encodedAudios));
     BlocProvider.of<AudioListBloc>(context).add(AudioListUpdate(audios));
   }
 
-  static Future updateAudio(BuildContext context, Audio? audio) async {
+  static Future updateAudio(BuildContext context, Audio? audio,
+      {bool refresh = true}) async {
     if (audio == null) return;
     final allAudios = await getAllAudios();
     allAudios[allAudios.indexOf(audio)] = audio;
-    await saveAllAudios(context, allAudios);
+    await saveAllAudios(context, allAudios, refresh: refresh);
   }
 
   static Future addNewAssetsAudios(BuildContext context) async {

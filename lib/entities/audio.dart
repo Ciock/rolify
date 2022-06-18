@@ -1,17 +1,21 @@
 import 'package:equatable/equatable.dart';
+import 'package:just_audio/just_audio.dart';
 
 enum LocalAudioSource { assets, file }
 
-// ignore: must_be_immutable
 class Audio extends Equatable {
   final String name, path, image;
   final LocalAudioSource audioSource;
+  final LoopMode loopMode;
+  final double volume;
 
   const Audio({
     required this.name,
     required this.path,
     this.image = 'assets/images/tavern.jpg',
     this.audioSource = LocalAudioSource.assets,
+    this.loopMode = LoopMode.one,
+    this.volume = 0.5,
   });
 
   Audio.fromJson(Map json)
@@ -20,7 +24,9 @@ class Audio extends Equatable {
         image = json['image'],
         audioSource = json['audio_source'] == 'assets'
             ? LocalAudioSource.assets
-            : LocalAudioSource.file;
+            : LocalAudioSource.file,
+        loopMode = json['loop_mode'] == 'off' ? LoopMode.off : LoopMode.one,
+        volume = json['volume'] ?? 0.5;
 
   toJson() => {
         'name': name,
@@ -28,6 +34,8 @@ class Audio extends Equatable {
         'image': image,
         'audio_source':
             audioSource == LocalAudioSource.assets ? 'assets' : 'file',
+        'loop_mode': loopMode == LoopMode.off ? 'off' : 'one',
+        'volume': volume,
       };
 
   Audio copyFrom({
@@ -35,12 +43,16 @@ class Audio extends Equatable {
     String? path,
     String? image,
     LocalAudioSource? audioSource,
+    LoopMode? loopMode,
+    double? volume,
   }) =>
       Audio(
         name: name ?? this.name,
         path: path ?? this.path,
         image: image ?? this.image,
         audioSource: audioSource ?? this.audioSource,
+        loopMode: loopMode ?? this.loopMode,
+        volume: volume ?? this.volume,
       );
 
   @override

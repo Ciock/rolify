@@ -66,9 +66,9 @@ class MyAudioHandler extends BaseAudioHandler with QueueHandler, SeekHandler {
       audio.audioSource == LocalAudioSource.assets
           ? await audioPlayer.setAsset(audio.path)
           : await audioPlayer.setFilePath(audio.path);
-      audioPlayer.setVolume(0.5);
+      audioPlayer.setVolume(audio.volume);
+      audioPlayer.setLoopMode(audio.loopMode);
       audioPlayers[audio.path] = audioPlayer;
-      audioPlayer.setLoopMode(LoopMode.one);
       return audioPlayer;
     }
   }
