@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:rolify/data/audios.dart';
@@ -12,7 +14,6 @@ import 'package:rolify/src/components/button.dart';
 import 'package:rolify/src/components/radio.dart';
 import 'package:rolify/src/components/slider.dart';
 import 'package:rolify/src/theme/texts.dart';
-import 'package:rxdart/rxdart.dart';
 
 import 'dropdown_image.dart';
 import 'my_icons.dart';
@@ -27,7 +28,7 @@ class PlayerWidget extends StatefulWidget {
 }
 
 class PlayerWidgetState extends State<PlayerWidget> {
-  final _volumeSubject = BehaviorSubject.seeded(0.5);
+  final _volumeController = StreamController<double>();
   late String audioImage;
   bool loopAudio = true, isPlaying = false;
 
@@ -68,10 +69,8 @@ class PlayerWidgetState extends State<PlayerWidget> {
       }
     });
 
+    _volumeController.add(0.5);
     audioImage = widget.audio.image;
-    checkIfIsPlaying();
-    checkVolume();
-    checkLoop();
   }
 
   @override
@@ -141,7 +140,7 @@ class PlayerWidgetState extends State<PlayerWidget> {
             ),
             const SizedBox(height: 14),
             StreamBuilder<double>(
-              stream: _volumeSubject.stream,
+              stream: _volumeController.stream,
               builder: (context, snapshot) => MySlider(
                 style: MySliderStyle(
                   depth: -5.0,
@@ -159,7 +158,7 @@ class PlayerWidgetState extends State<PlayerWidget> {
                 height: 12,
                 value: snapshot.data ?? 1.0,
                 onChanged: (value) {
-                  _volumeSubject.add(value);
+                  _volumeController.add(value);
 
                   AudioServiceCommands.setVolume(widget.audio, value);
                 },
@@ -193,7 +192,7 @@ class PlayerWidgetState extends State<PlayerWidget> {
 
   Future<void> checkVolume() async {
     double volume = await AudioServiceCommands.getVolume(widget.audio);
-    _volumeSubject.add(volume);
+    _volumeController.add(volume);
   }
 
   Future<void> checkLoop() async {

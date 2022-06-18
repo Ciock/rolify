@@ -22,10 +22,10 @@ class AllSound extends StatefulWidget {
   const AllSound({Key? key}) : super(key: key);
 
   @override
-  _AllSoundState createState() => _AllSoundState();
+  AllSoundState createState() => AllSoundState();
 }
 
-class _AllSoundState extends State<AllSound> with WidgetsBindingObserver {
+class AllSoundState extends State<AllSound> with WidgetsBindingObserver {
   List<Audio> audios = [], filteredAudios = [];
   TextEditingController filterController = TextEditingController();
   FocusNode focusNode = FocusNode();
@@ -103,72 +103,11 @@ class _AllSoundState extends State<AllSound> with WidgetsBindingObserver {
                       alignment: Alignment.topCenter,
                       child: Row(
                         children: <Widget>[
-                          Expanded(
-                            child: Neumorphic(
-                              style: NeumorphicStyle(
-                                depth: -5.0,
-                                boxShape: NeumorphicBoxShape.roundRect(
-                                    const BorderRadius.all(
-                                        Radius.circular(20.0))),
-                              ),
-                              padding: const EdgeInsets.only(
-                                  left: 16.0, right: 16.0),
-                              child: SizedBox(
-                                height: 40 * heightFactor,
-                                child: Row(
-                                  children: <Widget>[
-                                    filterController.text != ''
-                                        ? GestureDetector(
-                                            onTap: () =>
-                                                resetTextFilter(context),
-                                            child: MyIcons.close(
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .secondary),
-                                          )
-                                        : GestureDetector(
-                                            onTap: () {
-                                              focusNode.requestFocus();
-                                              setState(() {});
-                                            },
-                                            child: MyIcons.search(
-                                              color: focusNode.hasFocus
-                                                  ? Theme.of(context)
-                                                      .colorScheme
-                                                      .secondary
-                                                  : NeumorphicTheme
-                                                          .currentTheme(context)
-                                                      .disabledColor,
-                                            )),
-                                    const SizedBox(width: 8.0),
-                                    Expanded(
-                                      child: TextField(
-                                        controller: filterController,
-                                        focusNode: focusNode,
-                                        decoration: InputDecoration(
-                                            border: InputBorder.none,
-                                            hintText: 'Search a sound...',
-                                            hintStyle: TextStyle(
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 16 * heightFactor,
-                                                fontFamily: 'Inter-Regular',
-                                                color: NeumorphicTheme
-                                                        .currentTheme(context)
-                                                    .disabledColor)),
-                                        onChanged: (text) {
-                                          if (text == '') {
-                                            resetTextFilter(context);
-                                          } else {
-                                            filterAudios(context);
-                                          }
-                                        },
-                                      ),
-                                    ),
-                                    const SizedBox(height: 16.0),
-                                  ],
-                                ),
-                              ),
-                            ),
+                          SearchBar(
+                            filterController: filterController,
+                            focusNode: focusNode,
+                            filterAudios: filterAudios,
+                            resetTextFilter: resetTextFilter,
                           ),
                           const SizedBox(width: 8.0),
                           MyButton(
@@ -180,19 +119,16 @@ class _AllSoundState extends State<AllSound> with WidgetsBindingObserver {
                     ),
                   ),
                   Expanded(
-                    child: ListView(
-                      padding: const EdgeInsets.only(bottom: 148),
-                      physics: const BouncingScrollPhysics(),
-                      children: [
-                        Wrap(
+                    child: SingleChildScrollView(
+                        padding: const EdgeInsets.only(bottom: 148),
+                        physics: const BouncingScrollPhysics(),
+                        child: Wrap(
                           children: filteredAudios
                               .map(
                                 (e) => PlayerWidget(key: Key(e.path), audio: e),
                               )
                               .toList(),
-                        )
-                      ],
-                    ),
+                        )),
                   ),
                 ],
               ),
@@ -203,83 +139,14 @@ class _AllSoundState extends State<AllSound> with WidgetsBindingObserver {
             child: Padding(
               padding: EdgeInsets.symmetric(
                   vertical: 16.0 * heightFactor, horizontal: 16.0),
-              child: SizedBox(
-                height: 133 * heightFactor,
-                child: Neumorphic(
-                  curve: Curves.ease,
-                  style: NeumorphicStyle(
-                    boxShape: NeumorphicBoxShape.roundRect(
-                        const BorderRadius.all(Radius.circular(12.0))),
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                        vertical: 16.0 * heightFactor, horizontal: 16.0),
-                    child: Column(
-                      children: <Widget>[
-                        MyText.body(
-                          'Manage all the sounds',
-                          textType: TextType.secondary,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        SizedBox(height: 14 * heightFactor),
-                        Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.only(right: 8.0),
-                                child: Align(
-                                  alignment: Alignment.centerRight,
-                                  child: MyButton(
-                                    icon: MyIcons.star,
-                                    onTap: _openPlayStore,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            MyRadio(
-                                big: true,
-                                icon: pauseAll
-                                    ? MyIcons.pauseBig(
-                                        color: playPauseEnabled
-                                            ? null
-                                            : NeumorphicTheme.currentTheme(
-                                                    context)
-                                                .disabledColor)
-                                    : MyIcons.playBig(
-                                        color: playPauseEnabled
-                                            ? null
-                                            : NeumorphicTheme.currentTheme(
-                                                    context)
-                                                .disabledColor),
-                                value: pauseAll,
-                                onChanged: (value) {
-                                  if (!playPauseEnabled) return;
-
-                                  if (value) {
-                                    playAllSound();
-                                  } else {
-                                    pauseAllSound();
-                                  }
-                                  setState(() {
-                                    pauseAll = value;
-                                  });
-                                }),
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 8.0),
-                                child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Container(),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+              child: GlobalControlBox(
+                  pauseAll: pauseAll,
+                  playPauseEnabled: playPauseEnabled,
+                  setPauseAll: (value) {
+                    setState(() {
+                      pauseAll = value;
+                    });
+                  }),
             ),
           )
         ],
@@ -343,6 +210,100 @@ class _AllSoundState extends State<AllSound> with WidgetsBindingObserver {
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => InfoPage()));
   }
+}
+
+class GlobalControlBox extends StatelessWidget {
+  final bool pauseAll;
+  final bool playPauseEnabled;
+  final Function(bool value) setPauseAll;
+
+  const GlobalControlBox({
+    Key? key,
+    required this.pauseAll,
+    required this.playPauseEnabled,
+    required this.setPauseAll,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 133 * heightFactor,
+      child: Neumorphic(
+        curve: Curves.ease,
+        style: NeumorphicStyle(
+          boxShape: NeumorphicBoxShape.roundRect(
+              const BorderRadius.all(Radius.circular(12.0))),
+        ),
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+              vertical: 16.0 * heightFactor, horizontal: 16.0),
+          child: Column(
+            children: <Widget>[
+              MyText.body(
+                'Manage all the sounds',
+                textType: TextType.secondary,
+                fontWeight: FontWeight.w500,
+              ),
+              SizedBox(height: 14 * heightFactor),
+              Row(
+                children: <Widget>[
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: MyButton(
+                          icon: MyIcons.star,
+                          onTap: _openPlayStore,
+                        ),
+                      ),
+                    ),
+                  ),
+                  MyRadio(
+                      big: true,
+                      icon: pauseAll
+                          ? MyIcons.pauseBig(
+                              color: playPauseEnabled
+                                  ? null
+                                  : NeumorphicTheme.currentTheme(context)
+                                      .disabledColor)
+                          : MyIcons.playBig(
+                              color: playPauseEnabled
+                                  ? null
+                                  : NeumorphicTheme.currentTheme(context)
+                                      .disabledColor),
+                      value: pauseAll,
+                      onChanged: (value) {
+                        if (!playPauseEnabled) return;
+
+                        if (value) {
+                          playAllSound();
+                        } else {
+                          pauseAllSound();
+                        }
+                        setPauseAll(value);
+                      }),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Container(),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  _openPlayStore() {
+    LaunchReview.launch(iOSAppId: '1511308478');
+  }
 
   void playAllSound() async {
     final pausedAudios = PlayingSounds().pausedAudios.toList();
@@ -361,8 +322,81 @@ class _AllSoundState extends State<AllSound> with WidgetsBindingObserver {
       await Future.delayed(const Duration(milliseconds: 100));
     }
   }
+}
 
-  _openPlayStore() {
-    LaunchReview.launch(iOSAppId: '1511308478');
+class SearchBar extends StatelessWidget {
+  final TextEditingController filterController;
+  final FocusNode focusNode;
+  final Function(BuildContext context) filterAudios;
+  final Function(BuildContext context) resetTextFilter;
+
+  const SearchBar({
+    Key? key,
+    required this.filterController,
+    required this.focusNode,
+    required this.filterAudios,
+    required this.resetTextFilter,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Neumorphic(
+        style: NeumorphicStyle(
+          depth: -5.0,
+          boxShape: NeumorphicBoxShape.roundRect(
+              const BorderRadius.all(Radius.circular(20.0))),
+        ),
+        padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+        child: SizedBox(
+          height: 40 * heightFactor,
+          child: Row(
+            children: <Widget>[
+              filterController.text != ''
+                  ? GestureDetector(
+                      onTap: () => resetTextFilter(context),
+                      child: MyIcons.close(
+                          color: Theme.of(context).colorScheme.secondary),
+                    )
+                  : GestureDetector(
+                      onTap: () {
+                        focusNode.requestFocus();
+                        //setState(() {});
+                      },
+                      child: MyIcons.search(
+                        color: focusNode.hasFocus
+                            ? Theme.of(context).colorScheme.secondary
+                            : NeumorphicTheme.currentTheme(context)
+                                .disabledColor,
+                      )),
+              const SizedBox(width: 8.0),
+              Expanded(
+                child: TextField(
+                  controller: filterController,
+                  focusNode: focusNode,
+                  decoration: InputDecoration(
+                      border: InputBorder.none,
+                      hintText: 'Search a sound...',
+                      hintStyle: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16 * heightFactor,
+                          fontFamily: 'Inter-Regular',
+                          color: NeumorphicTheme.currentTheme(context)
+                              .disabledColor)),
+                  onChanged: (text) {
+                    if (text == '') {
+                      resetTextFilter(context);
+                    } else {
+                      filterAudios(context);
+                    }
+                  },
+                ),
+              ),
+              const SizedBox(height: 16.0),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
