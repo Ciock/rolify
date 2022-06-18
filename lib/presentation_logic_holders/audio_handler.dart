@@ -126,7 +126,7 @@ class MyAudioHandler extends BaseAudioHandler with QueueHandler, SeekHandler {
         MediaControl.play,
       ],
       processingState: AudioProcessingState.ready,
-      playing: true,
+      playing: false,
     ));
 
     customEvent.add(createAudioCustomEvent(AudioCustomEvents.pauseAll));
