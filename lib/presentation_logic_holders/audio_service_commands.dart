@@ -46,4 +46,10 @@ class AudioServiceCommands {
         .audioHandler
         .customAction('get_volume', {"audio": audio.toJson()});
   }
+
+  static Future getPlaying(Audio audio) async {
+    return AppState()
+        .audioHandler
+        .customAction('is_playing', {"audio": audio.toJson()});
+  }
 }

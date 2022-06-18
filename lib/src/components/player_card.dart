@@ -1,4 +1,3 @@
-import 'package:audio_service/audio_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:rolify/data/audios.dart';
@@ -182,8 +181,7 @@ class PlayerWidgetState extends State<PlayerWidget> {
   Future<void> checkIfIsPlaying() async {
     bool newValue;
     try {
-      newValue =
-          await AudioService.customAction('is_playing', widget.audio.toJson());
+      newValue = await AudioServiceCommands.getPlaying(widget.audio);
     } catch (e) {
       newValue = false;
     }

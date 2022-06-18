@@ -1,4 +1,3 @@
-import 'package:audio_service/audio_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
@@ -6,6 +5,7 @@ import 'package:rolify/entities/audio.dart';
 import 'package:rolify/presentation_logic_holders/audio_edit_bloc/audio_edit_bloc.dart';
 import 'package:rolify/presentation_logic_holders/audio_edit_bloc/audio_edit_event.dart';
 import 'package:rolify/presentation_logic_holders/audio_edit_bloc/audio_edit_state.dart';
+import 'package:rolify/presentation_logic_holders/audio_service_commands.dart';
 import 'package:rolify/src/components/button.dart';
 import 'package:rolify/src/components/my_icons.dart';
 import 'package:rolify/src/components/text_field.dart';
@@ -25,9 +25,9 @@ class SoundEdit extends StatelessWidget {
         child: Neumorphic(
           style: NeumorphicStyle(
             boxShape: NeumorphicBoxShape.roundRect(
-                BorderRadius.all(Radius.circular(16.0))),
+                const BorderRadius.all(Radius.circular(16.0))),
           ),
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
@@ -38,13 +38,13 @@ class SoundEdit extends StatelessWidget {
                       controller: controller,
                     ),
                   ),
-                  SizedBox(width: 12.0),
+                  const SizedBox(width: 12.0),
                   MyButton(
                       icon: MyIcons.done,
                       onTap: () => saveAudioName(context, state.audio)),
                 ],
               ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               if (state.audio != null)
                 Row(
                   children: <Widget>[
@@ -52,7 +52,7 @@ class SoundEdit extends StatelessWidget {
                         icon: MyIcons.close(),
                         onTap: () => BlocProvider.of<AudioEditBloc>(context)
                             .add(CancelEditing(context, state.audio))),
-                    SizedBox(width: 16.0),
+                    const SizedBox(width: 16.0),
                     MyButton(
                       icon: MyIcons.playlist_add,
                       onTap: () => Navigator.push(
@@ -78,7 +78,9 @@ class SoundEdit extends StatelessWidget {
   }
 
   saveAudioName(BuildContext context, Audio? audio) {
-    if (audio != null) audio.name = controller.text;
+    if (audio != null) {
+      audio.name = controller.text;
+    }
     BlocProvider.of<AudioEditBloc>(context).add(ConfirmEditing(context, audio));
   }
 
@@ -88,23 +90,23 @@ class SoundEdit extends StatelessWidget {
       showDialog(
         context: context,
         builder: (BuildContext context) => CupertinoAlertDialog(
-          title: Text(
+          title: const Text(
             'This cannot be reverted!',
           ),
-          content: Text(
+          content: const Text(
             'You will be able to reload this audio only downloading the app again removing so your current audios already uploaded, continue?',
           ),
           actions: [
             CupertinoDialogAction(
                 isDefaultAction: false,
                 onPressed: () => Navigator.pop(context, false),
-                child: Text(
+                child: const Text(
                   'No',
                 )),
             CupertinoDialogAction(
                 isDefaultAction: true,
                 onPressed: () => Navigator.pop(context, true),
-                child: Text(
+                child: const Text(
                   'Yes',
                 )),
           ],
@@ -121,6 +123,6 @@ class SoundEdit extends StatelessWidget {
   }
 
   void stop(Audio audio) {
-    AudioService.customAction('stop', audio.toJson());
+    AudioServiceCommands.stop(audio);
   }
 }

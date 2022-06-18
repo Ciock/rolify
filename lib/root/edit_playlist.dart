@@ -14,10 +14,10 @@ class EditPlaylist extends StatefulWidget {
   const EditPlaylist({Key? key, required this.playlist}) : super(key: key);
 
   @override
-  _EditPlaylistState createState() => _EditPlaylistState();
+  EditPlaylistState createState() => EditPlaylistState();
 }
 
-class _EditPlaylistState extends State<EditPlaylist> {
+class EditPlaylistState extends State<EditPlaylist> {
   final playlistNameController = TextEditingController();
   List<Audio>? audios;
 
@@ -42,11 +42,11 @@ class _EditPlaylistState extends State<EditPlaylist> {
       backgroundColor: NeumorphicTheme.currentTheme(context).baseColor,
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.all(24.0),
+          padding: const EdgeInsets.all(24.0),
           child: Neumorphic(
             style: NeumorphicStyle(
               boxShape: NeumorphicBoxShape.roundRect(
-                  BorderRadius.all(Radius.circular(16.0))),
+                  const BorderRadius.all(Radius.circular(16.0))),
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -64,7 +64,7 @@ class _EditPlaylistState extends State<EditPlaylist> {
                           )
                         ],
                       ),
-                      SizedBox(height: 16.0),
+                      const SizedBox(height: 16.0),
                       Row(
                         children: <Widget>[
                           Expanded(
@@ -73,9 +73,9 @@ class _EditPlaylistState extends State<EditPlaylist> {
                               hintText: 'Create a new playlist...',
                             ),
                           ),
-                          SizedBox(width: 12.0),
+                          const SizedBox(width: 12.0),
                           MyButton(icon: MyIcons.done, onTap: savePlaylist),
-                          SizedBox(width: 12.0),
+                          const SizedBox(width: 12.0),
                           MyButton(icon: MyIcons.delete, onTap: removePlaylist),
                         ],
                       ),
@@ -85,8 +85,8 @@ class _EditPlaylistState extends State<EditPlaylist> {
                 if (audios != null)
                   Expanded(
                     child: ListView.separated(
-                      physics: BouncingScrollPhysics(),
-                      padding: EdgeInsets.all(16.0),
+                      physics: const BouncingScrollPhysics(),
+                      padding: const EdgeInsets.all(16.0),
                       itemCount: audios!.length,
                       itemBuilder: (context, index) => _AudioRow(
                         playlist: widget.playlist,
@@ -95,7 +95,7 @@ class _EditPlaylistState extends State<EditPlaylist> {
                         onRemove: () => removeSoundFromPlaylist(audios![index]),
                       ),
                       separatorBuilder: (BuildContext context, int index) =>
-                          SizedBox(
+                          const SizedBox(
                         height: 16.0,
                       ),
                     ),
@@ -166,7 +166,7 @@ class _AudioRow extends StatelessWidget {
             fontWeight: FontWeight.w500,
           ),
         ),
-        SizedBox(
+        const SizedBox(
           width: 16.0,
         ),
         MyButton(
