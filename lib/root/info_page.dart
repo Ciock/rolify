@@ -47,6 +47,15 @@ class InfoPage extends StatelessWidget {
                   textType: TextType.secondary,
                 ),
                 ClickableText(
+                  onTap: _goToGithub,
+                  text: "Github",
+                ),
+                MyText.caption(
+                  '  •  ',
+                  fontWeight: FontWeight.w500,
+                  textType: TextType.secondary,
+                ),
+                ClickableText(
                   onTap: _openPlayStore,
                   text: "Review",
                 ),
@@ -57,6 +66,7 @@ class InfoPage extends StatelessWidget {
             ),
             MyText.body(
               "Thank you all for the support you are giving me!\n\n"
+              "Rolify is now open source on Github, you're welcome to help with new features.\n\n"
               "The application was born out of a need of my D&D group and once it was finished I thought it could be useful to other people all over the world.\n\n"
               "So the most natural thing I could do was to release it free of charge for everyone.\n\n"
               "You sincerely surprised me for all the interest you have shown in this project!\n\n"
@@ -73,6 +83,15 @@ class InfoPage extends StatelessWidget {
 
   _goToReddit() async {
     final url = Uri.parse('https://www.reddit.com/r/RolifySoundboardApp/');
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
+  _goToGithub() async {
+    final url = Uri.parse('https://github.com/Ciock/rolify/tree/master');
     if (await canLaunchUrl(url)) {
       await launchUrl(url);
     } else {
