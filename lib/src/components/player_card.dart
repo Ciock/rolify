@@ -91,8 +91,8 @@ class PlayerWidgetState extends State<PlayerWidget> {
                     setState(() {
                       audioImage = value;
                     });
-                    widget.audio.image = value;
-                    AudioData.updateAudio(context, widget.audio);
+                    AudioData.updateAudio(
+                        context, widget.audio.copyFrom(image: value));
                   },
                 ),
                 Expanded(

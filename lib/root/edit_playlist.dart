@@ -131,9 +131,10 @@ class EditPlaylistState extends State<EditPlaylist> {
   savePlaylist() async {
     await PlaylistData.removePlaylist(context, widget.playlist);
     if (widget.playlist.audios.isNotEmpty) {
-      widget.playlist.name = playlistNameController.text;
-      widget.playlist.color = color;
-      await PlaylistData.savePlaylist(context, widget.playlist);
+      await PlaylistData.savePlaylist(
+          context,
+          widget.playlist
+              .copyFrom(name: playlistNameController.text, color: color));
     }
     Navigator.pop(context);
   }

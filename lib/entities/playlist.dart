@@ -35,27 +35,25 @@ final colorTranslationReverse = {
   Colors.deepPurpleAccent[100]: 'purple',
 };
 
-// ignore: must_be_immutable
 class Playlist extends Equatable {
-  late String name;
-  late List<Audio> audios;
-  Color? color;
+  final String name;
+  final List<Audio> audios;
+  final Color? color;
 
-  Playlist({
+  const Playlist({
     required this.name,
     required this.audios,
     this.color,
   });
 
-  Playlist.fromJson(Map json) {
-    name = json['name'] ?? 'New Playlist';
-    audios = json['audios'] != null
-        ? (jsonDecode(json['audios']) as List)
-            .map((audio) => Audio.fromJson(audio))
-            .toList()
-        : [];
-    color = json['color'] != null ? colorTranslation[json['color']] : null;
-  }
+  Playlist.fromJson(Map json)
+      : name = json['name'] ?? 'New Playlist',
+        audios = json['audios'] != null
+            ? (jsonDecode(json['audios']) as List)
+                .map((audio) => Audio.fromJson(audio))
+                .toList()
+            : [],
+        color = json['color'] != null ? colorTranslation[json['color']] : null;
 
   toJson() => {
         'name': name,
@@ -64,6 +62,16 @@ class Playlist extends Equatable {
             : jsonEncode([]),
         'color': colorTranslationReverse[color]
       };
+
+  Playlist copyFrom({
+    String? name,
+    List<Audio>? audios,
+    Color? color,
+  }) =>
+      Playlist(
+          name: name ?? this.name,
+          audios: audios ?? this.audios,
+          color: color ?? this.color);
 
   @override
   List<Object> get props => [name];

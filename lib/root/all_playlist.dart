@@ -29,6 +29,8 @@ class AllPlaylistState extends State<AllPlaylist> {
   void initPlaylists() {
     PlaylistData.getAllPlaylist().then((value) {
       if (mounted) {
+        value.sort(
+            (a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
         setState(() {
           playlists = value;
         });

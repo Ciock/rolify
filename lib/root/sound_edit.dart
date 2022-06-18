@@ -15,6 +15,8 @@ import 'add_sound_to_playlist.dart';
 class SoundEdit extends StatelessWidget {
   final controller = TextEditingController();
 
+  SoundEdit({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AudioEditBloc, AudioEditState>(
@@ -79,7 +81,7 @@ class SoundEdit extends StatelessWidget {
 
   saveAudioName(BuildContext context, Audio? audio) {
     if (audio != null) {
-      audio.name = controller.text;
+      audio = audio.copyFrom(name: controller.text);
     }
     BlocProvider.of<AudioEditBloc>(context).add(ConfirmEditing(context, audio));
   }
