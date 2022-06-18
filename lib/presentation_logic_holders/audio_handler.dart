@@ -4,32 +4,6 @@ import 'package:audio_service/audio_service.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:rolify/entities/audio.dart';
 
-MediaControl playControl = const MediaControl(
-  androidIcon: 'drawable/ic_action_play_arrow',
-  label: 'Play',
-  action: MediaAction.play,
-);
-MediaControl pauseControl = const MediaControl(
-  androidIcon: 'drawable/ic_action_pause',
-  label: 'Pause',
-  action: MediaAction.pause,
-);
-MediaControl skipToNextControl = const MediaControl(
-  androidIcon: 'drawable/ic_action_skip_next',
-  label: 'Next',
-  action: MediaAction.skipToNext,
-);
-MediaControl skipToPreviousControl = const MediaControl(
-  androidIcon: 'drawable/ic_action_skip_previous',
-  label: 'Previous',
-  action: MediaAction.skipToPrevious,
-);
-MediaControl stopControl = const MediaControl(
-  androidIcon: 'drawable/ic_action_stop',
-  label: 'Stop',
-  action: MediaAction.stop,
-);
-
 enum AudioCustomEvents { audioEnded, resumeAll, pauseAll }
 
 Future<AudioHandler> initAudioService() async {
