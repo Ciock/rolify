@@ -194,9 +194,10 @@ class AllSoundState extends State<AllSound> with WidgetsBindingObserver {
     for (var file in paths) {
       final name = file.name.replaceAll('_', ' ').replaceAll('.mp3', '');
       final audio = Audio(
-          name: name,
-          path: file.path ?? '',
-          audioSource: LocalAudioSource.file);
+        name: name,
+        path: file.path ?? '',
+        audioSource: LocalAudioSource.file,
+      );
       if (allAudios.contains(audio) == false) {
         allAudios.add(audio);
       }

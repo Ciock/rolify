@@ -33,8 +33,8 @@ class Audio extends Equatable {
   Audio copyFrom({
     String? name,
     String? path,
-    String? image = 'assets/images/tavern.jpg',
-    LocalAudioSource? audioSource = LocalAudioSource.assets,
+    String? image,
+    LocalAudioSource? audioSource,
   }) =>
       Audio(
         name: name ?? this.name,
