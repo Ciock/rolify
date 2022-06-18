@@ -44,8 +44,6 @@ flutter:
     - assets/images/
     - assets/launcher_icon/
     - assets/icons/
-    - assets/icons/2.0x/
-    - assets/icons/3.0x/
   fonts:
     - family: AssetAudioPlayer
       fonts:
