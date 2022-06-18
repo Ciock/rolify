@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:audio_service/audio_service.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:rolify/entities/audio.dart';
@@ -28,7 +30,7 @@ MediaControl stopControl = const MediaControl(
   action: MediaAction.stop,
 );
 
-enum AudioCustomEvents { audioEnded }
+enum AudioCustomEvents { audioEnded, resumeAll, pauseAll }
 
 Future<AudioHandler> initAudioService() async {
   return await AudioService.init(
@@ -38,6 +40,8 @@ Future<AudioHandler> initAudioService() async {
       androidNotificationChannelName: 'Rolify',
       androidNotificationOngoing: true,
       androidStopForegroundOnPause: true,
+      androidShowNotificationBadge: true,
+      notificationColor: Color(0xFFF0F0F3),
     ),
   );
 }
@@ -93,7 +97,6 @@ class MyAudioHandler extends BaseAudioHandler with QueueHandler, SeekHandler {
     playbackState.add(PlaybackState(
       controls: [
         MediaControl.pause,
-        MediaControl.stop,
       ],
       processingState: AudioProcessingState.ready,
       playing: true,
@@ -107,7 +110,7 @@ class MyAudioHandler extends BaseAudioHandler with QueueHandler, SeekHandler {
       playingAudio.add(audioPlayer);
     }
     pausedAudio = [];
-    customEvent.add('just played');
+    customEvent.add(createAudioCustomEvent(AudioCustomEvents.resumeAll));
   }
 
   @override
@@ -121,21 +124,12 @@ class MyAudioHandler extends BaseAudioHandler with QueueHandler, SeekHandler {
     playbackState.add(PlaybackState(
       controls: [
         MediaControl.play,
-        MediaControl.stop,
       ],
       processingState: AudioProcessingState.ready,
       playing: true,
     ));
 
-    customEvent.add('just paused');
-  }
-
-  @override
-  Future<void> stop() async {
-    for (final key in audioPlayers.keys) {
-      await audioPlayers[key]!.stop();
-    }
-    playingAudio = [];
+    customEvent.add(createAudioCustomEvent(AudioCustomEvents.pauseAll));
   }
 
   @override

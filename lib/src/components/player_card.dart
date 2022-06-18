@@ -60,8 +60,9 @@ class PlayerWidgetState extends State<PlayerWidget> {
       }
     });
     AppState().audioHandler.customEvent.listen((event) {
-      if (event['name'] == AudioCustomEvents.audioEnded &&
-          event['audioPath'] == widget.audio.path) {
+      if (event['name'] == AudioCustomEvents.pauseAll ||
+          (event['name'] == AudioCustomEvents.audioEnded &&
+              event['audioPath'] == widget.audio.path)) {
         setState(() {
           isPlaying = false;
         });
