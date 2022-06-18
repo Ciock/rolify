@@ -15,17 +15,18 @@ class MyButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: size * heightFactor,
       width: size * heightFactor,
       child: Center(
         child: NeumorphicButton(
           padding: padding,
-          child: icon,
           onPressed: onTap,
           style: NeumorphicStyle(
-            boxShape: NeumorphicBoxShape.circle(),
+            boxShape: const NeumorphicBoxShape.circle(),
+            shadowLightColor: Colors.white.withOpacity(0.7),
           ),
+          child: icon,
           //onPressed: stopAll,
         ),
       ),

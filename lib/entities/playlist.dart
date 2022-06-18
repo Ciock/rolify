@@ -5,6 +5,16 @@ import 'package:flutter/material.dart';
 
 import 'audio.dart';
 
+final colors = [
+  Colors.redAccent[100]!,
+  Colors.deepOrangeAccent[100]!,
+  Colors.amberAccent[100]!,
+  Colors.greenAccent[100]!,
+  Colors.cyanAccent[100]!,
+  Colors.blueAccent[100]!,
+  Colors.deepPurpleAccent[100]!,
+];
+
 final colorTranslation = {
   'red': Colors.redAccent[100],
   'orange': Colors.deepOrangeAccent[100],

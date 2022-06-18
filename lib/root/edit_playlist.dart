@@ -4,6 +4,7 @@ import 'package:rolify/data/playlist.dart';
 import 'package:rolify/entities/audio.dart';
 import 'package:rolify/entities/playlist.dart';
 import 'package:rolify/src/components/button.dart';
+import 'package:rolify/src/components/color_selection.dart';
 import 'package:rolify/src/components/my_icons.dart';
 import 'package:rolify/src/components/text_field.dart';
 import 'package:rolify/src/theme/texts.dart';
@@ -20,12 +21,14 @@ class EditPlaylist extends StatefulWidget {
 class EditPlaylistState extends State<EditPlaylist> {
   final playlistNameController = TextEditingController();
   List<Audio>? audios;
+  Color? color;
 
   @override
   void initState() {
     super.initState();
     initAudios();
     playlistNameController.text = widget.playlist.name;
+    color = widget.playlist.color;
   }
 
   initAudios() {
@@ -82,6 +85,23 @@ class EditPlaylistState extends State<EditPlaylist> {
                     ],
                   ),
                 ),
+                ColorSelection(
+                  onChange: (value) {
+                    setState(() {
+                      color = color == value ? null : value;
+                    });
+                  },
+                  colors: <Color>[
+                    Colors.redAccent[100]!,
+                    Colors.deepOrangeAccent[100]!,
+                    Colors.amberAccent[100]!,
+                    Colors.greenAccent[100]!,
+                    Colors.cyanAccent[100]!,
+                    Colors.blueAccent[100]!,
+                    Colors.deepPurpleAccent[100]!,
+                  ],
+                  groupValue: color,
+                ),
                 if (audios != null)
                   Expanded(
                     child: ListView.separated(
@@ -112,6 +132,7 @@ class EditPlaylistState extends State<EditPlaylist> {
     await PlaylistData.removePlaylist(context, widget.playlist);
     if (widget.playlist.audios.isNotEmpty) {
       widget.playlist.name = playlistNameController.text;
+      widget.playlist.color = color;
       await PlaylistData.savePlaylist(context, widget.playlist);
     }
     Navigator.pop(context);

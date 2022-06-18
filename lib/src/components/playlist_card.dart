@@ -41,6 +41,7 @@ class PlaylistCardState extends State<PlaylistCard> {
         height: expanded ? maxHeight : 170,
         child: Neumorphic(
           style: NeumorphicStyle(
+            color: widget.playlist.color?.withOpacity(0.2),
             boxShape: NeumorphicBoxShape.roundRect(
               const BorderRadius.all(Radius.circular(16.0)),
             ),

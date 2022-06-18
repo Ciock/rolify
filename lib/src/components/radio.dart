@@ -21,11 +21,14 @@ class MyRadio extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: size * heightFactor,
       width: size * heightFactor,
       child: NeumorphicRadio<bool>(
-          style: NeumorphicRadioStyle(boxShape: NeumorphicBoxShape.circle()),
+          style: const NeumorphicRadioStyle(
+            boxShape: NeumorphicBoxShape.circle(),
+            intensity: 0.8,
+          ),
           padding: EdgeInsets.all((size - iconSize) / 2),
           value: true,
           groupValue: value,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ColorSelection extends StatelessWidget {
-  final Color groupValue;
+  final Color? groupValue;
   final List<Color> colors;
   final Function(Color) onChange;
 
@@ -24,7 +24,8 @@ class ColorSelection extends StatelessWidget {
                   width: 24,
                   height: 24,
                   decoration: BoxDecoration(
-                    border: color == groupValue ? Border.all() : null,
+                    border: color == groupValue ? Border.all(width: 2) : null,
+                    borderRadius: BorderRadius.circular(12),
                     color: color,
                   ),
                 ),
