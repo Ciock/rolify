@@ -11,11 +11,13 @@ import 'package:rolify/src/components/playlist_card.dart';
 import 'edit_playlist.dart';
 
 class AllPlaylist extends StatefulWidget {
+  const AllPlaylist({Key? key}) : super(key: key);
+
   @override
-  _AllPlaylistState createState() => _AllPlaylistState();
+  AllPlaylistState createState() => AllPlaylistState();
 }
 
-class _AllPlaylistState extends State<AllPlaylist> {
+class AllPlaylistState extends State<AllPlaylist> {
   List<Playlist> playlists = [];
 
   @override
@@ -26,10 +28,11 @@ class _AllPlaylistState extends State<AllPlaylist> {
 
   void initPlaylists() {
     PlaylistData.getAllPlaylist().then((value) {
-      if(mounted)
-      setState(() {
-        playlists = value;
-      });
+      if (mounted) {
+        setState(() {
+          playlists = value;
+        });
+      }
     });
   }
 
@@ -40,7 +43,7 @@ class _AllPlaylistState extends State<AllPlaylist> {
         if (state is PlaylistListEdited) initPlaylists();
       },
       child: ListView(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         children: <Widget>[
           Wrap(
             alignment: WrapAlignment.center,
@@ -56,13 +59,9 @@ class _AllPlaylistState extends State<AllPlaylist> {
   List<Widget> getPlaylistList() {
     List<Widget> list = [];
 
-    list.addAll(playlists
-        .map(
-          (playlist) => PlaylistCard(
-            playlist: playlist,
-          ),
-        )
-        .toList());
+    list.addAll(
+        playlists.map((playlist) => PlaylistCard(playlist: playlist)).toList());
+
     list.add(Align(
       alignment: Alignment.center,
       child: MyButton(
@@ -71,7 +70,7 @@ class _AllPlaylistState extends State<AllPlaylist> {
                 context,
                 MaterialPageRoute(
                   builder: (context) => EditPlaylist(
-                    playlist: Playlist.fromJson({}),
+                    playlist: Playlist.fromJson(const {}),
                   ),
                 ),
               )),

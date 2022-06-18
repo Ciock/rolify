@@ -29,7 +29,7 @@ final colorTranslationReverse = {
 class Playlist extends Equatable {
   late String name;
   late List<Audio> audios;
-  late Color? color;
+  Color? color;
 
   Playlist({
     required this.name,
@@ -44,7 +44,7 @@ class Playlist extends Equatable {
             .map((audio) => Audio.fromJson(audio))
             .toList()
         : [];
-    color = colorTranslation[json['color']]!;
+    color = json['color'] != null ? colorTranslation[json['color']] : null;
   }
 
   toJson() => {

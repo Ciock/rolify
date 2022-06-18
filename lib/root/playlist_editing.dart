@@ -13,10 +13,10 @@ class PlaylistEditing extends StatefulWidget {
   const PlaylistEditing({Key? key, required this.playlist}) : super(key: key);
 
   @override
-  _PlaylistEditingState createState() => _PlaylistEditingState();
+  PlaylistEditingState createState() => PlaylistEditingState();
 }
 
-class _PlaylistEditingState extends State<PlaylistEditing> {
+class PlaylistEditingState extends State<PlaylistEditing> {
   TextEditingController titleController = TextEditingController();
   late List<Audio> audios;
   late Color color;
@@ -35,7 +35,7 @@ class _PlaylistEditingState extends State<PlaylistEditing> {
         backgroundColor: NeumorphicTheme.baseColor(context),
         appBar: AppBar(
           backgroundColor: NeumorphicTheme.accentColor(context),
-          title: Text('Playlist'),
+          title: const Text('Playlist'),
           actions: <Widget>[
             IconButton(
               icon: MyIcons.delete,
@@ -50,12 +50,12 @@ class _PlaylistEditingState extends State<PlaylistEditing> {
               icon: MyIcons.done,
               onPressed: () {
                 PlaylistData.savePlaylist(
-                        context,
-                        Playlist(
-                            name: titleController.text,
-                            audios: audios,
-                            color: color))
-                    .then((_) => Navigator.pop(context, true));
+                    context,
+                    Playlist(
+                      name: titleController.text,
+                      audios: audios,
+                      color: color,
+                    )).then((_) => Navigator.pop(context, true));
               },
               splashColor: Colors.transparent,
               highlightColor: Colors.transparent,
@@ -66,12 +66,13 @@ class _PlaylistEditingState extends State<PlaylistEditing> {
           child: Column(
             children: <Widget>[
               Padding(
-                padding: EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
+                padding: const EdgeInsets.only(
+                    left: 16.0, right: 16.0, bottom: 16.0),
                 child: TextField(
                   controller: titleController,
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 32),
-                  decoration: InputDecoration(hintText: 'Playlist name'),
+                  style: const TextStyle(fontSize: 32),
+                  decoration: const InputDecoration(hintText: 'Playlist name'),
                 ),
               ),
               ColorSelection(
@@ -119,12 +120,10 @@ class _PlaylistEditingState extends State<PlaylistEditing> {
                             ),
                           ),
                           separatorBuilder: (BuildContext context, int index) =>
-                              Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 16.0),
-                                  child: Divider(
-                                    height: 0,
-                                  )),
+                              const Padding(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 16.0),
+                                  child: Divider(height: 0)),
                         )),
               )
             ],

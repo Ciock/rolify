@@ -42,19 +42,19 @@ class _BaseState extends State<Base> {
                 child: Row(
                   children: <Widget>[
                     Expanded(child: MyText.title(Title[pageSelected])),
-                    SizedBox(width: 8.0),
+                    const SizedBox(width: 8.0),
                     MyRadio(
                       value: pageSelected == 0,
                       onChanged: pageSelected <= 2 ? showSoundPage : null,
                       icon: MyIcons.list(color: _getIconColor(context, 0)),
                     ),
-                    SizedBox(width: 8.0),
+                    const SizedBox(width: 8.0),
                     MyRadio(
                       value: pageSelected == 1,
                       onChanged: pageSelected <= 2 ? showPlaylistPage : null,
                       icon: MyIcons.playlist(color: _getIconColor(context, 1)),
                     ),
-                    SizedBox(width: 8.0),
+                    const SizedBox(width: 8.0),
                     MyRadio(
                       value: pageSelected == 2,
                       onChanged: pageSelected <= 2 ? showInfoPage : null,
@@ -63,15 +63,15 @@ class _BaseState extends State<Base> {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 16.0,
               ),
               Expanded(
                   child: IndexedStack(
                 index: pageSelected,
                 children: <Widget>[
-                  AllSound(),
-                  AllPlaylist(),
+                  const AllSound(),
+                  const AllPlaylist(),
                   InfoPage(),
                   SoundEdit(),
                 ],

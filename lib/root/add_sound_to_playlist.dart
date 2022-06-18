@@ -160,7 +160,7 @@ class _PlaylistRow extends StatelessWidget {
                 playlist.name,
                 fontWeight: FontWeight.w500,
               ),
-              AutoScrollText(
+              ScrollText(
                 audios: playlist.audios,
               ),
             ],

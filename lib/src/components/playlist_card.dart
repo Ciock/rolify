@@ -19,11 +19,11 @@ class PlaylistCard extends StatefulWidget {
   const PlaylistCard({Key? key, required this.playlist}) : super(key: key);
 
   @override
-  _PlaylistCardState createState() => _PlaylistCardState();
+  PlaylistCardState createState() => PlaylistCardState();
 }
 
-class _PlaylistCardState extends State<PlaylistCard> {
-  final duration = Duration(milliseconds: 500);
+class PlaylistCardState extends State<PlaylistCard> {
+  final duration = const Duration(milliseconds: 500);
   bool isPlaying = false, expanded = false, showAudioList = false;
 
   double get maxHeight =>
@@ -34,7 +34,7 @@ class _PlaylistCardState extends State<PlaylistCard> {
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
-      constraints: BoxConstraints(maxWidth: 500),
+      constraints: const BoxConstraints(maxWidth: 500),
       child: AnimatedContainer(
         duration: duration,
         curve: Curves.ease,
@@ -42,9 +42,7 @@ class _PlaylistCardState extends State<PlaylistCard> {
         child: Neumorphic(
           style: NeumorphicStyle(
             boxShape: NeumorphicBoxShape.roundRect(
-              BorderRadius.all(
-                Radius.circular(16.0),
-              ),
+              const BorderRadius.all(Radius.circular(16.0)),
             ),
           ),
           padding: const EdgeInsets.only(
@@ -63,13 +61,13 @@ class _PlaylistCardState extends State<PlaylistCard> {
                               widget.playlist.name,
                               fontWeight: FontWeight.w500,
                             ),
-                            AutoScrollText(
+                            ScrollText(
                               audios: widget.playlist.audios,
                             ),
                           ],
                         ),
                       ),
-                      SizedBox(width: 8.0),
+                      const SizedBox(width: 8.0),
                       MyButton(
                         icon: MyIcons.edit,
                         onTap: () => Navigator.push(
@@ -83,8 +81,8 @@ class _PlaylistCardState extends State<PlaylistCard> {
                   if (showAudioList)
                     Expanded(
                       child: ListView(
-                        physics: BouncingScrollPhysics(),
-                        padding: EdgeInsets.only(bottom: 100),
+                        physics: const BouncingScrollPhysics(),
+                        padding: const EdgeInsets.only(bottom: 100),
                         children: widget.playlist.audios
                             .map(
                                 (e) => PlayerWidget(key: Key(e.path), audio: e))
@@ -95,7 +93,7 @@ class _PlaylistCardState extends State<PlaylistCard> {
               ),
               Align(
                 alignment: Alignment.bottomCenter,
-                child: Container(
+                child: SizedBox(
                   height: 96 * heightFactor,
                   child: Neumorphic(
                     duration: duration,
@@ -103,7 +101,7 @@ class _PlaylistCardState extends State<PlaylistCard> {
                     style: NeumorphicStyle(
                       disableDepth: !expanded,
                       boxShape: NeumorphicBoxShape.roundRect(
-                          BorderRadius.all(Radius.circular(12.0))),
+                          const BorderRadius.all(Radius.circular(12.0))),
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
@@ -176,14 +174,14 @@ class _PlaylistCardState extends State<PlaylistCard> {
   void playAllSoundInPlaylist() async {
     for (final audio in widget.playlist.audios) {
       AudioServiceCommands.play(audio);
-      await Future.delayed(Duration(milliseconds: 100));
+      await Future.delayed(const Duration(milliseconds: 100));
     }
   }
 
   void stopAllSoundInPlaylist() async {
     for (final audio in widget.playlist.audios) {
       AudioServiceCommands.stop(audio);
-      await Future.delayed(Duration(milliseconds: 100));
+      await Future.delayed(const Duration(milliseconds: 100));
     }
   }
 }
