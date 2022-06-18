@@ -1,13 +1,16 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:audio_service/audio_service.dart';
+import 'package:flutter/services.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:rolify/entities/audio.dart';
+import 'package:path_provider/path_provider.dart';
 
 enum AudioCustomEvents { audioEnded, resumeAll, pauseAll }
 
 Future<AudioHandler> initAudioService() async {
-  return await AudioService.init(
+  final audioHandler = await AudioService.init(
     builder: () => MyAudioHandler(),
     config: const AudioServiceConfig(
       androidNotificationChannelId: 'com.rolify.app.audio',
@@ -15,9 +18,13 @@ Future<AudioHandler> initAudioService() async {
       androidNotificationOngoing: true,
       androidStopForegroundOnPause: true,
       androidShowNotificationBadge: true,
+      androidNotificationIcon: 'mipmap/ic_launcher_foreground',
       notificationColor: Color(0xFFF0F0F3),
     ),
   );
+  audioHandler.setMockMediaItem('launcher_icon/512px_512px.png');
+
+  return audioHandler;
 }
 
 class MyAudioHandler extends BaseAudioHandler with QueueHandler, SeekHandler {
@@ -26,11 +33,22 @@ class MyAudioHandler extends BaseAudioHandler with QueueHandler, SeekHandler {
   List<AudioPlayer> pausedAudio = [];
   bool stoppingAll = false;
 
-  final mockMediaItem = const MediaItem(
-    id: "id",
-    album: "For awesome roleplayers",
-    title: "Rolify",
-  );
+  Future<void> setMockMediaItem(String path) async {
+    final byteData = await rootBundle.load('assets/$path');
+
+    final file = File('${(await getTemporaryDirectory()).path}/mock.png');
+    await file.writeAsBytes(byteData.buffer
+        .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
+
+    final mockMediaItem = MediaItem(
+      id: "id",
+      album: "For awesome roleplayers",
+      title: "Rolify",
+      artUri: Uri.parse('file://${file.path}'),
+    );
+
+    mediaItem.add(mockMediaItem);
+  }
 
   Future<AudioPlayer> getAudioPlayer(Audio audio) async {
     if (audioPlayers.containsKey(audio.path)) {
@@ -54,8 +72,6 @@ class MyAudioHandler extends BaseAudioHandler with QueueHandler, SeekHandler {
   }
 
   void playAudioPlayer(AudioPlayer audioPlayer) {
-    mediaItem.add(mockMediaItem);
-
     audioPlayer.play().then((_) async {
       if (audioPlayer.playing) {
         await audioPlayer.stop();
