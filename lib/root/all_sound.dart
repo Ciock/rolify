@@ -209,7 +209,7 @@ class AllSoundState extends State<AllSound> with WidgetsBindingObserver {
 
   void navigateToInfo() {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => InfoPage()));
+        context, MaterialPageRoute(builder: (context) => const InfoPage()));
   }
 }
 

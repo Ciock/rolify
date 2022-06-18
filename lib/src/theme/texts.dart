@@ -36,12 +36,13 @@ class MyText extends StatelessWidget {
       overflow: textOverflow,
       textAlign: textAlign,
       style: TextStyle(
-          height: height,
-          fontSize: fontSize,
-          fontFamily: fontFamily,
-          fontWeight: fontWeight,
-          decoration: textDecoration,
-          color: color == null ? getTextColor(context, textType) : color),
+        height: height,
+        fontSize: fontSize,
+        fontFamily: fontFamily,
+        fontWeight: fontWeight,
+        decoration: textDecoration,
+        color: color ?? getTextColor(context, textType),
+      ),
     );
   }
 

@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         home: ScrollConfiguration(
           behavior: NoScrollGlowBehavior(),
-          child: Base(),
+          child: const Base(),
         ),
       ),
     );

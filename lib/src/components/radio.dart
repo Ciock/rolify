@@ -6,12 +6,13 @@ class MyRadio extends StatelessWidget {
   final Function(bool value)? onChanged;
   final Widget icon;
 
-  MyRadio({
+  const MyRadio({
+    Key? key,
     this.value = false,
     this.onChanged,
     required this.icon,
     this.big = false,
-  });
+  }) : super(key: key);
 
   double get size => big ? 64.0 : 40.0;
 

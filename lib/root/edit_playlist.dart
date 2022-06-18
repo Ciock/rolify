@@ -193,8 +193,8 @@ class _AudioRow extends StatelessWidget {
         ),
         MyButton(
           icon: playlist.audios.contains(audio)
-              ? MyIcons.playlist_delete
-              : MyIcons.playlist_add,
+              ? MyIcons.playlistDelete
+              : MyIcons.playlistAdd,
           onTap: playlist.audios.contains(audio) ? onRemove : onAdd,
         ),
       ],

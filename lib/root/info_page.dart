@@ -4,25 +4,27 @@ import 'package:rolify/src/theme/texts.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class InfoPage extends StatelessWidget {
+  const InfoPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
         ListView(
-          physics: BouncingScrollPhysics(),
-          padding:
-              EdgeInsets.only(left: 24.0, right: 24.0, top: 16.0, bottom: 96.0),
+          physics: const BouncingScrollPhysics(),
+          padding: const EdgeInsets.only(
+              left: 24.0, right: 24.0, top: 16.0, bottom: 96.0),
           children: <Widget>[
             Row(
               children: <Widget>[
                 ClipRRect(
+                  borderRadius: const BorderRadius.all(Radius.circular(12.0)),
                   child: Image.asset(
                     'assets/icons/me.jpg',
                     height: 24.0,
                   ),
-                  borderRadius: BorderRadius.all(Radius.circular(12.0)),
                 ),
-                SizedBox(width: 8.0),
+                const SizedBox(width: 8.0),
                 Expanded(
                   child: MyText.body(
                     "Made for fun by “madciock”.",
@@ -31,7 +33,7 @@ class InfoPage extends StatelessWidget {
                 )
               ],
             ),
-            SizedBox(height: 26.0),
+            const SizedBox(height: 26.0),
             Wrap(
               alignment: WrapAlignment.center,
               children: <Widget>[
@@ -50,7 +52,7 @@ class InfoPage extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 8.0,
             ),
             MyText.body(
@@ -70,18 +72,9 @@ class InfoPage extends StatelessWidget {
   }
 
   _goToReddit() async {
-    const url = 'https://www.reddit.com/r/RolifySoundboardApp/';
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
-
-  _goToTipeee() async {
-    const url = 'https://en.tipeee.com/luca-oropallo/';
-    if (await canLaunch(url)) {
-      await launch(url);
+    final url = Uri.parse('https://www.reddit.com/r/RolifySoundboardApp/');
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url);
     } else {
       throw 'Could not launch $url';
     }

@@ -1,6 +1,6 @@
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
-typedef void NeumorphicSliderListener(double percent);
+typedef NeumorphicSliderListener = void Function(double percent);
 
 /// A style to customize the [MySlider]
 ///
@@ -96,7 +96,7 @@ class MySlider extends StatefulWidget {
 
   final Widget? thumb;
 
-  MySlider({
+  const MySlider({
     Key? key,
     this.style = const MySliderStyle(),
     this.min = 0,
@@ -107,7 +107,7 @@ class MySlider extends StatefulWidget {
     this.onChangeStart,
     this.onChangeEnd,
     this.thumb,
-  });
+  }) : super(key: key);
 
   double get percent => (((value.clamp(min, max)) - min) / ((max - min)));
 
@@ -186,7 +186,7 @@ class _MySliderState extends State<MySlider> {
       style: NeumorphicStyle(
         disableDepth: widget.style.disableDepth,
         shape: NeumorphicShape.concave,
-        boxShape: NeumorphicBoxShape.circle(),
+        boxShape: const NeumorphicBoxShape.circle(),
       ),
       child: SizedBox(
         height: size,

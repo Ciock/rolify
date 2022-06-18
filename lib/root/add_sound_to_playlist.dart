@@ -14,10 +14,10 @@ class AddSoundToPlaylist extends StatefulWidget {
   const AddSoundToPlaylist({Key? key, required this.audio}) : super(key: key);
 
   @override
-  _AddSoundToPlaylistState createState() => _AddSoundToPlaylistState();
+  AddSoundToPlaylistState createState() => AddSoundToPlaylistState();
 }
 
-class _AddSoundToPlaylistState extends State<AddSoundToPlaylist> {
+class AddSoundToPlaylistState extends State<AddSoundToPlaylist> {
   final newPlaylistNameController = TextEditingController();
   List<Playlist>? playlists;
 
@@ -41,11 +41,11 @@ class _AddSoundToPlaylistState extends State<AddSoundToPlaylist> {
       backgroundColor: NeumorphicTheme.currentTheme(context).baseColor,
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.all(24.0),
+          padding: const EdgeInsets.all(24.0),
           child: Neumorphic(
             style: NeumorphicStyle(
               boxShape: NeumorphicBoxShape.roundRect(
-                  BorderRadius.all(Radius.circular(16.0))),
+                  const BorderRadius.all(Radius.circular(16.0))),
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -63,7 +63,7 @@ class _AddSoundToPlaylistState extends State<AddSoundToPlaylist> {
                           )
                         ],
                       ),
-                      SizedBox(height: 16.0),
+                      const SizedBox(height: 16.0),
                       Row(
                         children: <Widget>[
                           Expanded(
@@ -72,7 +72,7 @@ class _AddSoundToPlaylistState extends State<AddSoundToPlaylist> {
                               hintText: 'Create a new playlist...',
                             ),
                           ),
-                          SizedBox(width: 12.0),
+                          const SizedBox(width: 12.0),
                           MyButton(icon: MyIcons.done, onTap: savePlaylist),
                         ],
                       ),
@@ -82,8 +82,8 @@ class _AddSoundToPlaylistState extends State<AddSoundToPlaylist> {
                 if (playlists != null)
                   Expanded(
                     child: ListView.separated(
-                      physics: BouncingScrollPhysics(),
-                      padding: EdgeInsets.all(16.0),
+                      physics: const BouncingScrollPhysics(),
+                      padding: const EdgeInsets.all(16.0),
                       itemCount: playlists!.length,
                       itemBuilder: (context, index) => _PlaylistRow(
                         playlist: playlists![index],
@@ -93,7 +93,7 @@ class _AddSoundToPlaylistState extends State<AddSoundToPlaylist> {
                             removeSoundFromPlaylist(playlists![index]),
                       ),
                       separatorBuilder: (BuildContext context, int index) =>
-                          SizedBox(
+                          const SizedBox(
                         height: 16.0,
                       ),
                     ),
@@ -166,13 +166,13 @@ class _PlaylistRow extends StatelessWidget {
             ],
           ),
         ),
-        SizedBox(
+        const SizedBox(
           width: 16.0,
         ),
         MyButton(
           icon: playlist.audios.contains(currentAudio)
-              ? MyIcons.playlist_delete
-              : MyIcons.playlist_add,
+              ? MyIcons.playlistDelete
+              : MyIcons.playlistAdd,
           onTap: playlist.audios.contains(currentAudio) ? onRemove : onAdd,
         ),
       ],

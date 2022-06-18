@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rolify/src/images/images.dart';
 
-const HEIGHT = 48.0;
+const _height = 48.0;
 
 class DropdownImage extends StatelessWidget {
   final String value;
@@ -16,21 +16,19 @@ class DropdownImage extends StatelessWidget {
       hint: Container(),
       underline: Container(),
       icon: Container(),
-      itemHeight: HEIGHT,
+      itemHeight: _height,
       value: value,
       onChanged: onChanged,
       selectedItemBuilder: (context) => assetImages.map((String image) {
         return DefaultTextStyle(
-          style: TextStyle(),
-          child: Container(
-            child: ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(4.0)),
-              child: Image.asset(
-                image,
-                height: HEIGHT,
-                width: HEIGHT,
-                fit: BoxFit.cover,
-              ),
+          style: const TextStyle(),
+          child: ClipRRect(
+            borderRadius: const BorderRadius.all(Radius.circular(4.0)),
+            child: Image.asset(
+              image,
+              height: _height,
+              width: _height,
+              fit: BoxFit.cover,
             ),
           ),
         );
@@ -40,15 +38,13 @@ class DropdownImage extends StatelessWidget {
           value: image,
           child: Padding(
             padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-            child: Container(
-              child: ClipRRect(
-                borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                child: Image.asset(
-                  image,
-                  height: HEIGHT,
-                  width: HEIGHT,
-                  fit: BoxFit.cover,
-                ),
+            child: ClipRRect(
+              borderRadius: const BorderRadius.all(Radius.circular(4.0)),
+              child: Image.asset(
+                image,
+                height: _height,
+                width: _height,
+                fit: BoxFit.cover,
               ),
             ),
           ),

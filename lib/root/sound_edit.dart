@@ -56,7 +56,7 @@ class SoundEdit extends StatelessWidget {
                             .add(CancelEditing(context, state.audio))),
                     const SizedBox(width: 16.0),
                     MyButton(
-                      icon: MyIcons.playlist_add,
+                      icon: MyIcons.playlistAdd,
                       onTap: () => Navigator.push(
                           context,
                           MaterialPageRoute(

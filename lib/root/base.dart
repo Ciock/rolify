@@ -12,14 +12,16 @@ import 'package:rolify/src/theme/texts.dart';
 import 'all_playlist.dart';
 import 'all_sound.dart';
 
-const Title = ['Sounds', 'Playlists', 'Rolify', 'Edit Sound'];
+const titles = ['Sounds', 'Playlists', 'Rolify', 'Edit Sound'];
 
 class Base extends StatefulWidget {
+  const Base({Key? key}) : super(key: key);
+
   @override
-  _BaseState createState() => _BaseState();
+  BaseState createState() => BaseState();
 }
 
-class _BaseState extends State<Base> {
+class BaseState extends State<Base> {
   int pageSelected = 0;
   int? previousPage;
 
@@ -41,7 +43,7 @@ class _BaseState extends State<Base> {
                     const EdgeInsets.only(top: 24.0, left: 24.0, right: 24.0),
                 child: Row(
                   children: <Widget>[
-                    Expanded(child: MyText.title(Title[pageSelected])),
+                    Expanded(child: MyText.title(titles[pageSelected])),
                     const SizedBox(width: 8.0),
                     MyRadio(
                       value: pageSelected == 0,
@@ -72,7 +74,7 @@ class _BaseState extends State<Base> {
                 children: <Widget>[
                   const AllSound(),
                   const AllPlaylist(),
-                  InfoPage(),
+                  const InfoPage(),
                   SoundEdit(),
                 ],
               ))
@@ -84,10 +86,12 @@ class _BaseState extends State<Base> {
   }
 
   Color? _getIconColor(BuildContext context, int pageNumber) {
-    if (pageSelected > 2)
+    if (pageSelected > 2) {
       return NeumorphicTheme.currentTheme(context).disabledColor;
-    if (pageSelected == pageNumber)
+    }
+    if (pageSelected == pageNumber) {
       return NeumorphicTheme.currentTheme(context).accentColor;
+    }
     return null;
   }
 
@@ -120,9 +124,10 @@ class _BaseState extends State<Base> {
   }
 
   changePage(int? page) {
-    if (page != null)
+    if (page != null) {
       setState(() {
         pageSelected = page;
       });
+    }
   }
 }

@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
 class MyTextField extends StatelessWidget {
@@ -21,10 +20,10 @@ class MyTextField extends StatelessWidget {
       style: NeumorphicStyle(
         depth: -5.0,
         boxShape: NeumorphicBoxShape.roundRect(
-            BorderRadius.all(Radius.circular(20.0))),
+            const BorderRadius.all(Radius.circular(20.0))),
       ),
-      padding: EdgeInsets.only(left: 16.0, right: 16.0),
-      child: Container(
+      padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+      child: SizedBox(
         height: 40,
         child: TextField(
           controller: controller,
