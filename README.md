@@ -1,5 +1,5 @@
 # Rolify
-[<img src="resources/store1">]
+[<img src="resources/store1.jpg">]
 
 Rolify is an app that allows you to play multiple sounds simultaneously, with the ability to manage audio individually. You can also add the music you have on your phone, all completely offline and free.
 
