@@ -3,7 +3,9 @@
 
 Rolify is an app that allows you to play multiple sounds simultaneously, with the ability to manage audio individually. You can also add the music you have on your phone, all completely offline and free.
 
-[<img src="resources/google-play-badge.png" height="50">](https://play.google.com/store/apps/details?id=com.lucaoropallo.rolify)
+| Android | Official SubReddit |
+|:-:|:-:|
+| [<img src="resources/google-play-badge.png" height="50">](https://play.google.com/store/apps/details?id=com.lucaoropallo.rolify) | [<img src="resources/reddit-logo.jpeg" height="50">](https://www.reddit.com/r/RolifySoundboardApp/) |
 
 ## Some background
 
