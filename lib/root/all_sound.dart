@@ -184,7 +184,12 @@ class AllSoundState extends State<AllSound> with WidgetsBindingObserver {
   void _openFileExplorer(BuildContext context) async {
     List<PlatformFile>? paths;
     try {
-      final result = await FilePicker.platform.pickFiles(type: FileType.audio);
+      final result = await FilePicker.platform.pickFiles(
+        type: Theme.of(context).platform == TargetPlatform.android
+            ? FileType.audio
+            : FileType.any,
+        allowMultiple: true,
+      );
       paths = result?.files;
     } on PlatformException catch (e) {
       debugPrint("Unsupported operation $e");
