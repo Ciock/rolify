@@ -19,8 +19,8 @@ I think this app will make many DM's dreams come true!
 
 ## Make it yours
 
-In this years I got a lot of requests for new features, and I can't handle all those alone. For this reason I abandoned the project long time ago. Netherless the interest for the app never died, and for this reasone I can't leave this project die.
+Over the years I have received many requests for new features and I cannot manage them all by myself. For this reason I have long since abandoned the project. Nonetheless, interest in the app has never disappeared, and that's why I can't let this project die.
 
-I tried my best to improve the code to make it easier for everyone to contribute, but I was facing a personal project that I didn't expect to gather such interest. This means rushed code and zero documentation. 
+I tried my best to improve the code to make it easier for everyone to contribute, but I was faced with a personal project that I didn't expect to garner such interest. This means rushed code and zero documentation.
 
-To public rolify open source I upgraded flutter to the latest version, moved to null safety, pumped up all packages and worked on some old requested features, but the code is far from perfection. I'll happily help everyone who would like to partecipate, touring the code or pointing at where to look at.
+To make it open source I updated flutter to the latest version, switched to null safety, upgraded all packages, and worked on some old required features, but the code is far from perfect. I will be happy to help anyone who would like to participate, by taking a tour of the code or pointing out where to look.
