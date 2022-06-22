@@ -1,3 +1,4 @@
+import 'package:audio_session/audio_session.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:rolify/presentation_logic_holders/audio_edit_bloc/audio_edit_bloc.dart';
@@ -10,6 +11,8 @@ import 'package:rolify/root/base.dart';
 Future<void> main() async {
   // store this in a singleton
   AppState().audioHandler = await initAudioService();
+
+  await _configureAudioSession();
 
   runApp(
     NeumorphicTheme(
@@ -31,6 +34,29 @@ Future<void> main() async {
         lightSource: LightSource.topLeft,
       ),
       child: const MyApp(),
+    ),
+  );
+}
+
+Future<void> _configureAudioSession() async {
+  final session = await AudioSession.instance;
+  await session.configure(
+    const AudioSessionConfiguration(
+      avAudioSessionCategory: AVAudioSessionCategory.playback,
+      avAudioSessionCategoryOptions:
+          AVAudioSessionCategoryOptions.mixWithOthers,
+      avAudioSessionMode: AVAudioSessionMode.defaultMode,
+      avAudioSessionRouteSharingPolicy:
+          AVAudioSessionRouteSharingPolicy.defaultPolicy,
+      avAudioSessionSetActiveOptions:
+          AVAudioSessionSetActiveOptions.notifyOthersOnDeactivation,
+      androidAudioAttributes: AndroidAudioAttributes(
+        contentType: AndroidAudioContentType.music,
+        flags: AndroidAudioFlags.none,
+        usage: AndroidAudioUsage.media,
+      ),
+      androidAudioFocusGainType: AndroidAudioFocusGainType.gainTransientMayDuck,
+      androidWillPauseWhenDucked: true,
     ),
   );
 }
