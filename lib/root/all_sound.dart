@@ -232,76 +232,68 @@ class GlobalControlBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 133 * heightFactor,
-      child: Neumorphic(
-        curve: Curves.ease,
-        style: NeumorphicStyle(
-          boxShape: NeumorphicBoxShape.roundRect(
-              const BorderRadius.all(Radius.circular(12.0))),
-        ),
-        child: Padding(
-          padding: EdgeInsets.symmetric(
-              vertical: 16.0 * heightFactor, horizontal: 16.0),
-          child: Column(
-            children: <Widget>[
-              MyText.body(
-                'Manage all the sounds',
-                textType: TextType.secondary,
-                fontWeight: FontWeight.w500,
-              ),
-              SizedBox(height: 14 * heightFactor),
-              Row(
-                children: <Widget>[
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 8.0),
-                      child: Align(
-                        alignment: Alignment.centerRight,
-                        child: MyButton(
-                          icon: MyIcons.star,
-                          onTap: _openPlayStore,
-                        ),
+    return Neumorphic(
+      curve: Curves.ease,
+      style: NeumorphicStyle(
+        boxShape: NeumorphicBoxShape.roundRect(
+            const BorderRadius.all(Radius.circular(12.0))),
+      ),
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+            vertical: 16.0 * heightFactor, horizontal: 16.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 16.0),
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: MyButton(
+                        icon: MyIcons.star,
+                        onTap: _openPlayStore,
                       ),
                     ),
                   ),
-                  MyRadio(
-                      big: true,
-                      icon: pauseAll
-                          ? MyIcons.pauseBig(
-                              color: playPauseEnabled
-                                  ? null
-                                  : NeumorphicTheme.currentTheme(context)
-                                      .disabledColor)
-                          : MyIcons.playBig(
-                              color: playPauseEnabled
-                                  ? null
-                                  : NeumorphicTheme.currentTheme(context)
-                                      .disabledColor),
-                      value: pauseAll,
-                      onChanged: (value) {
-                        if (!playPauseEnabled) return;
+                ),
+                MyRadio(
+                    big: true,
+                    icon: pauseAll
+                        ? MyIcons.pauseBig(
+                            color: playPauseEnabled
+                                ? null
+                                : NeumorphicTheme.currentTheme(context)
+                                    .disabledColor)
+                        : MyIcons.playBig(
+                            color: playPauseEnabled
+                                ? null
+                                : NeumorphicTheme.currentTheme(context)
+                                    .disabledColor),
+                    value: pauseAll,
+                    onChanged: (value) {
+                      if (!playPauseEnabled) return;
 
-                        if (value) {
-                          playAllSound();
-                        } else {
-                          pauseAllSound();
-                        }
-                        setPauseAll(value);
-                      }),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Container(),
-                      ),
+                      if (value) {
+                        playAllSound();
+                      } else {
+                        pauseAllSound();
+                      }
+                      setPauseAll(value);
+                    }),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Container(),
                     ),
                   ),
-                ],
-              ),
-            ],
-          ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
