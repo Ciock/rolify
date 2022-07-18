@@ -11,11 +11,13 @@ import 'package:rolify/presentation_logic_holders/audio_handler.dart';
 import 'package:rolify/presentation_logic_holders/audio_service_commands.dart';
 import 'package:rolify/presentation_logic_holders/event_bus/stop_all_event_bus.dart';
 import 'package:rolify/presentation_logic_holders/singletons/app_state.dart';
+import 'package:rolify/src/components/audio_slider.dart';
 import 'package:rolify/src/components/button.dart';
 import 'package:rolify/src/components/radio.dart';
 import 'package:rolify/src/components/slider.dart';
 import 'package:rolify/src/theme/texts.dart';
 
+import '../../presentation_logic_holders/playing_sounds_singleton.dart';
 import 'dropdown_image.dart';
 import 'my_icons.dart';
 
@@ -144,21 +146,8 @@ class PlayerWidgetState extends State<PlayerWidget> {
             const SizedBox(height: 14),
             StreamBuilder<double>(
               stream: _volumeController.stream,
-              builder: (context, snapshot) => MySlider(
-                style: MySliderStyle(
-                  depth: -5.0,
-                  accent: isPlaying
-                      ? NeumorphicTheme.currentTheme(context).variantColor
-                      : NeumorphicTheme.currentTheme(context)
-                          .disabledColor
-                          .withOpacity(0.5),
-                  variant: isPlaying
-                      ? NeumorphicTheme.currentTheme(context).accentColor
-                      : NeumorphicTheme.currentTheme(context).disabledColor,
-                ),
-                min: 0.0,
-                max: 1.0,
-                height: 12,
+              builder: (context, snapshot) => AudioSlider(
+                isActive: isPlaying,
                 value: snapshot.data ?? 0,
                 onChanged: (value) {
                   setVolume(context, value);
@@ -173,9 +162,12 @@ class PlayerWidgetState extends State<PlayerWidget> {
 
   void setVolume(BuildContext context, double value) {
     _volumeController.add(value);
-    AudioServiceCommands.setVolume(widget.audio, value);
-    AudioData.updateAudio(context, widget.audio.copyFrom(volume: value),
-        refresh: false);
+    AudioServiceCommands.setVolume(
+        widget.audio, value * PlayingSounds().masterVolume);
+        
+    final updatedAudio = widget.audio.copyFrom(volume: value);
+    PlayingSounds().updateAudio(updatedAudio);
+    AudioData.updateAudio(context, updatedAudio, refresh: false);
   }
 
   toggleLoop(value) {

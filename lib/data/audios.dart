@@ -8,6 +8,8 @@ import 'package:rolify/presentation_logic_holders/audio_list_bloc/audio_list_eve
 import 'package:rolify/src/audios/audios.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../presentation_logic_holders/playing_sounds_singleton.dart';
+
 class AudioData {
   static Future<List<Audio>> getAllAudios() async {
     final preferences = await SharedPreferences.getInstance();
@@ -32,6 +34,7 @@ class AudioData {
     if (audio == null) return;
     final allAudios = await getAllAudios();
     allAudios[allAudios.indexOf(audio)] = audio;
+    PlayingSounds().updateAudio(audio);
     await saveAllAudios(context, allAudios, refresh: refresh);
   }
 
