@@ -10,7 +10,7 @@ import 'package:rolify/src/components/radio.dart';
 import 'package:rolify/src/theme/texts.dart';
 
 import 'all_playlist.dart';
-import 'all_sound.dart';
+import 'all_sounds/all_sound.dart';
 
 const titles = ['Sounds', 'Playlists', 'Rolify', 'Edit Sound'];
 
