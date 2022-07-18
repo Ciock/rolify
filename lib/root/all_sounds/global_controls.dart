@@ -9,7 +9,7 @@ import '../../src/components/button.dart';
 import '../../src/components/my_icons.dart';
 import '../../src/components/radio.dart';
 
-class GlobalControls extends StatelessWidget {
+class GlobalControls extends StatefulWidget {
   final bool pauseAll;
   final bool playPauseEnabled;
   final Function(bool value) setPauseAll;
@@ -21,6 +21,11 @@ class GlobalControls extends StatelessWidget {
     required this.setPauseAll,
   }) : super(key: key);
 
+  @override
+  State<GlobalControls> createState() => _GlobalControlsState();
+}
+
+class _GlobalControlsState extends State<GlobalControls> {
   @override
   Widget build(BuildContext context) {
     return Neumorphic(
@@ -51,27 +56,27 @@ class GlobalControls extends StatelessWidget {
                 ),
                 MyRadio(
                     big: true,
-                    icon: pauseAll
+                    icon: widget.pauseAll
                         ? MyIcons.pauseBig(
-                            color: playPauseEnabled
+                            color: widget.playPauseEnabled
                                 ? null
                                 : NeumorphicTheme.currentTheme(context)
                                     .disabledColor)
                         : MyIcons.playBig(
-                            color: playPauseEnabled
+                            color: widget.playPauseEnabled
                                 ? null
                                 : NeumorphicTheme.currentTheme(context)
                                     .disabledColor),
-                    value: pauseAll,
+                    value: widget.pauseAll,
                     onChanged: (value) {
-                      if (!playPauseEnabled) return;
+                      if (!widget.playPauseEnabled) return;
 
                       if (value) {
                         playAllSound();
                       } else {
                         pauseAllSound();
                       }
-                      setPauseAll(value);
+                      widget.setPauseAll(value);
                     }),
                 Expanded(
                   child: Padding(
@@ -87,8 +92,8 @@ class GlobalControls extends StatelessWidget {
             SizedBox(height: 14 * heightFactor),
             AudioSlider(
               isActive: true,
-              value: 0.5,
-              onChanged: (value) {},
+              value: PlayingSounds().masterVolume,
+              onChanged: setMasterVolume,
             )
           ],
         ),
@@ -114,6 +119,18 @@ class GlobalControls extends StatelessWidget {
     for (final audio in playingAudios) {
       PlayingSounds().pauseAudio(audio);
       AudioServiceCommands.stop(audio);
+      await Future.delayed(const Duration(milliseconds: 100));
+    }
+  }
+
+  void setMasterVolume(double value) async {
+    setState(() {
+      PlayingSounds().masterVolume = value;
+    });
+
+    final playingAudios = PlayingSounds().playingAudios;
+    for (final audio in playingAudios) {
+      AudioServiceCommands.setVolume(audio, audio.volume * PlayingSounds().masterVolume);
       await Future.delayed(const Duration(milliseconds: 100));
     }
   }

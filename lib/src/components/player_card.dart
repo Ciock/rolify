@@ -17,6 +17,7 @@ import 'package:rolify/src/components/radio.dart';
 import 'package:rolify/src/components/slider.dart';
 import 'package:rolify/src/theme/texts.dart';
 
+import '../../presentation_logic_holders/playing_sounds_singleton.dart';
 import 'dropdown_image.dart';
 import 'my_icons.dart';
 
@@ -161,9 +162,12 @@ class PlayerWidgetState extends State<PlayerWidget> {
 
   void setVolume(BuildContext context, double value) {
     _volumeController.add(value);
-    AudioServiceCommands.setVolume(widget.audio, value);
-    AudioData.updateAudio(context, widget.audio.copyFrom(volume: value),
-        refresh: false);
+    AudioServiceCommands.setVolume(
+        widget.audio, value * PlayingSounds().masterVolume);
+        
+    final updatedAudio = widget.audio.copyFrom(volume: value);
+    PlayingSounds().updateAudio(updatedAudio);
+    AudioData.updateAudio(context, updatedAudio, refresh: false);
   }
 
   toggleLoop(value) {

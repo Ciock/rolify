@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:rolify/entities/audio.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:rolify/presentation_logic_holders/playing_sounds_singleton.dart';
 
 enum AudioCustomEvents { audioEnded, resumeAll, pauseAll }
 
@@ -60,7 +61,7 @@ class MyAudioHandler extends BaseAudioHandler with QueueHandler, SeekHandler {
       audio.audioSource == LocalAudioSource.assets
           ? await audioPlayer.setAsset(audio.path)
           : await audioPlayer.setFilePath(audio.path);
-      audioPlayer.setVolume(audio.volume);
+      audioPlayer.setVolume(audio.volume * PlayingSounds().masterVolume);
       audioPlayer.setLoopMode(audio.loopMode);
       audioPlayers[audio.path] = audioPlayer;
       return audioPlayer;
