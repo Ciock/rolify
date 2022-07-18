@@ -11,12 +11,16 @@ import 'package:rolify/presentation_logic_holders/audio_service_commands.dart';
 import 'package:rolify/presentation_logic_holders/event_bus/stop_all_event_bus.dart';
 import 'package:rolify/presentation_logic_holders/playing_sounds_singleton.dart';
 import 'package:rolify/presentation_logic_holders/singletons/app_state.dart';
+import 'package:rolify/root/all_sounds/search_bar.dart';
 import 'package:rolify/root/info_page.dart';
 import 'package:rolify/src/components/button.dart';
 import 'package:rolify/src/components/my_icons.dart';
 import 'package:rolify/src/components/player_card.dart';
 import 'package:rolify/src/components/radio.dart';
 import 'package:rolify/src/theme/texts.dart';
+
+import '../../src/components/audio_slider.dart';
+import 'global_controls.dart';
 
 class AllSound extends StatefulWidget {
   const AllSound({Key? key}) : super(key: key);
@@ -139,7 +143,7 @@ class AllSoundState extends State<AllSound> with WidgetsBindingObserver {
             child: Padding(
               padding: EdgeInsets.symmetric(
                   vertical: 16.0 * heightFactor, horizontal: 16.0),
-              child: GlobalControlBox(
+              child: GlobalControls(
                   pauseAll: pauseAll,
                   playPauseEnabled: playPauseEnabled,
                   setPauseAll: (value) {
@@ -215,194 +219,5 @@ class AllSoundState extends State<AllSound> with WidgetsBindingObserver {
   void navigateToInfo() {
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => const InfoPage()));
-  }
-}
-
-class GlobalControlBox extends StatelessWidget {
-  final bool pauseAll;
-  final bool playPauseEnabled;
-  final Function(bool value) setPauseAll;
-
-  const GlobalControlBox({
-    Key? key,
-    required this.pauseAll,
-    required this.playPauseEnabled,
-    required this.setPauseAll,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 133 * heightFactor,
-      child: Neumorphic(
-        curve: Curves.ease,
-        style: NeumorphicStyle(
-          boxShape: NeumorphicBoxShape.roundRect(
-              const BorderRadius.all(Radius.circular(12.0))),
-        ),
-        child: Padding(
-          padding: EdgeInsets.symmetric(
-              vertical: 16.0 * heightFactor, horizontal: 16.0),
-          child: Column(
-            children: <Widget>[
-              MyText.body(
-                'Manage all the sounds',
-                textType: TextType.secondary,
-                fontWeight: FontWeight.w500,
-              ),
-              SizedBox(height: 14 * heightFactor),
-              Row(
-                children: <Widget>[
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 8.0),
-                      child: Align(
-                        alignment: Alignment.centerRight,
-                        child: MyButton(
-                          icon: MyIcons.star,
-                          onTap: _openPlayStore,
-                        ),
-                      ),
-                    ),
-                  ),
-                  MyRadio(
-                      big: true,
-                      icon: pauseAll
-                          ? MyIcons.pauseBig(
-                              color: playPauseEnabled
-                                  ? null
-                                  : NeumorphicTheme.currentTheme(context)
-                                      .disabledColor)
-                          : MyIcons.playBig(
-                              color: playPauseEnabled
-                                  ? null
-                                  : NeumorphicTheme.currentTheme(context)
-                                      .disabledColor),
-                      value: pauseAll,
-                      onChanged: (value) {
-                        if (!playPauseEnabled) return;
-
-                        if (value) {
-                          playAllSound();
-                        } else {
-                          pauseAllSound();
-                        }
-                        setPauseAll(value);
-                      }),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Container(),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  _openPlayStore() {
-    LaunchReview.launch(iOSAppId: '1511308478');
-  }
-
-  void playAllSound() async {
-    final pausedAudios = PlayingSounds().pausedAudios.toList();
-    for (final audio in pausedAudios) {
-      PlayingSounds().replayAudio(audio);
-      AudioServiceCommands.play(audio);
-      await Future.delayed(const Duration(milliseconds: 100));
-    }
-  }
-
-  void pauseAllSound() async {
-    final playingAudios = PlayingSounds().playingAudios.toList();
-    for (final audio in playingAudios) {
-      PlayingSounds().pauseAudio(audio);
-      AudioServiceCommands.stop(audio);
-      await Future.delayed(const Duration(milliseconds: 100));
-    }
-  }
-}
-
-class SearchBar extends StatelessWidget {
-  final TextEditingController filterController;
-  final FocusNode focusNode;
-  final Function(BuildContext context) filterAudios;
-  final Function(BuildContext context) resetTextFilter;
-
-  const SearchBar({
-    Key? key,
-    required this.filterController,
-    required this.focusNode,
-    required this.filterAudios,
-    required this.resetTextFilter,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: Neumorphic(
-        style: NeumorphicStyle(
-          depth: -5.0,
-          boxShape: NeumorphicBoxShape.roundRect(
-              const BorderRadius.all(Radius.circular(20.0))),
-        ),
-        padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-        child: SizedBox(
-          height: 40 * heightFactor,
-          child: Row(
-            children: <Widget>[
-              filterController.text != ''
-                  ? GestureDetector(
-                      onTap: () => resetTextFilter(context),
-                      child: MyIcons.close(
-                          color: Theme.of(context).colorScheme.secondary),
-                    )
-                  : GestureDetector(
-                      onTap: () {
-                        focusNode.requestFocus();
-                        //setState(() {});
-                      },
-                      child: MyIcons.search(
-                        color: focusNode.hasFocus
-                            ? Theme.of(context).colorScheme.secondary
-                            : NeumorphicTheme.currentTheme(context)
-                                .disabledColor,
-                      )),
-              const SizedBox(width: 8.0),
-              Expanded(
-                child: TextField(
-                  controller: filterController,
-                  focusNode: focusNode,
-                  decoration: InputDecoration(
-                      border: InputBorder.none,
-                      hintText: 'Search a sound...',
-                      hintStyle: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16 * heightFactor,
-                          fontFamily: 'Inter-Regular',
-                          color: NeumorphicTheme.currentTheme(context)
-                              .disabledColor)),
-                  onChanged: (text) {
-                    if (text == '') {
-                      resetTextFilter(context);
-                    } else {
-                      filterAudios(context);
-                    }
-                  },
-                ),
-              ),
-              const SizedBox(height: 16.0),
-            ],
-          ),
-        ),
-      ),
-    );
   }
 }
