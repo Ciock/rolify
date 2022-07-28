@@ -167,13 +167,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.3.0"
-  flutter_launcher_icons:
+  flutter_launcher_icons_maker:
     dependency: "direct main"
     description:
-      name: flutter_launcher_icons
+      name: flutter_launcher_icons_maker
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.9.3"
+    version: "0.10.2"
   flutter_lints:
     dependency: "direct dev"
     description:
