@@ -16,7 +16,7 @@ dependencies:
   event_bus: ^2.0.0
   file_picker: ^4.6.1
   flutter_bloc: ^8.0.1
-  flutter_launcher_icons: ^0.9.3
+  flutter_launcher_icons_maker: ^0.10.2
   flutter_neumorphic: ^3.2.0
   flutter_svg: ^1.1.0
   just_audio: ^0.9.24
@@ -35,6 +35,8 @@ dev_dependencies:
 flutter_icons:
   android: 'launcher_icon'
   ios: true
+  macos: true
+  windows: true
   image_path: 'assets/launcher_icon/512px_512px.png'
   adaptive_icon_background: 'assets/launcher_icon/background.png'
   adaptive_icon_foreground: 'assets/launcher_icon/ic_launcher_foreground.png'
