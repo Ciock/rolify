@@ -72,9 +72,11 @@ class PlayerWidgetState extends State<PlayerWidget> {
       if (event['name'] == AudioCustomEvents.pauseAll ||
           (event['name'] == AudioCustomEvents.audioEnded &&
               event['audioPath'] == widget.audio.path)) {
-        setState(() {
-          isPlaying = false;
-        });
+        if (mounted) {
+          setState(() {
+            isPlaying = false;
+          });
+        }
       }
     });
 

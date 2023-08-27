@@ -149,7 +149,7 @@ class SessionSoundsState extends State<SessionSounds>
   }
 
   filterAudios(BuildContext context) async {
-    final allAudios = await AudioData.getAllAudios();
+    final allAudios = PlayingSounds().playingAudios;
 
     List<Audio> newFilteredAudios = allAudios;
     if (filterController.text != '') {
