@@ -134,7 +134,7 @@ class PlayerWidgetState extends State<PlayerWidget> {
                       ),
                       const SizedBox(width: 8.0),
                       MyRadio(
-                        icon: isPlaying ? MyIcons.pause : MyIcons.play,
+                        icon: isPlaying ? MyIcons.pause : MyIcons.play(),
                         value: isPlaying,
                         onChanged: (_) {
                           if (isPlaying) {

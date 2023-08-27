@@ -1,6 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-import 'package:rolify/data/audios.dart';
 import 'package:rolify/entities/audio.dart';
 import 'package:rolify/presentation_logic_holders/audio_list_bloc/audio_list_bloc.dart';
 import 'package:rolify/presentation_logic_holders/audio_list_bloc/audio_list_state.dart';
@@ -113,7 +112,8 @@ class SessionSoundsState extends State<SessionSounds>
                         child: Wrap(
                           children: filteredAudios
                               .map(
-                                (e) => PlayerWidget(key: Key(e.path), audio: e),
+                                (e) => PlayerWidget(
+                                    key: Key('${e.path}_session'), audio: e),
                               )
                               .toList(),
                         )),

@@ -124,7 +124,8 @@ class AllSoundState extends State<AllSound> with WidgetsBindingObserver {
                         child: Wrap(
                           children: filteredAudios
                               .map(
-                                (e) => PlayerWidget(key: Key(e.path), audio: e),
+                                (e) => PlayerWidget(
+                                    key: Key('${e.path}_all_sounds'), audio: e),
                               )
                               .toList(),
                         )),

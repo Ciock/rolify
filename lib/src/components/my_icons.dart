@@ -39,7 +39,10 @@ class MyIcons {
   static const Widget pause = IconTemplate('pause.svg');
   static pauseBig({Color? color}) =>
       IconTemplate('pause_big.svg', color: color);
-  static const Widget play = IconTemplate('play.svg');
+  static Widget play({Color? color}) => IconTemplate(
+        'play.svg',
+        color: color,
+      );
   static Widget playBig({Color? color}) => IconTemplate(
         'play_big.svg',
         color: color,

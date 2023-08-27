@@ -56,7 +56,7 @@ class BaseState extends State<Base> {
                       value: pageSelected == 1,
                       onChanged:
                           pageSelected <= 3 ? showSessionSoundPage : null,
-                      icon: MyIcons.list(color: _getIconColor(context, 1)),
+                      icon: MyIcons.play(color: _getIconColor(context, 1)),
                     ),
                     const SizedBox(width: 8.0),
                     MyRadio(
