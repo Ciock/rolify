@@ -3,13 +3,13 @@ import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import '../../presentation_logic_holders/singletons/app_state.dart';
 import '../../src/components/my_icons.dart';
 
-class SearchBar extends StatelessWidget {
+class MySearchBar extends StatelessWidget {
   final TextEditingController filterController;
   final FocusNode focusNode;
   final Function(BuildContext context) filterAudios;
   final Function(BuildContext context) resetTextFilter;
 
-  const SearchBar({
+  const MySearchBar({
     Key? key,
     required this.filterController,
     required this.focusNode,

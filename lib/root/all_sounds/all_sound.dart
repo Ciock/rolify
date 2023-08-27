@@ -2,24 +2,19 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-import 'package:launch_review/launch_review.dart';
 import 'package:rolify/data/audios.dart';
 import 'package:rolify/entities/audio.dart';
 import 'package:rolify/presentation_logic_holders/audio_list_bloc/audio_list_bloc.dart';
 import 'package:rolify/presentation_logic_holders/audio_list_bloc/audio_list_state.dart';
-import 'package:rolify/presentation_logic_holders/audio_service_commands.dart';
 import 'package:rolify/presentation_logic_holders/event_bus/stop_all_event_bus.dart';
 import 'package:rolify/presentation_logic_holders/playing_sounds_singleton.dart';
 import 'package:rolify/presentation_logic_holders/singletons/app_state.dart';
-import 'package:rolify/root/all_sounds/search_bar.dart';
 import 'package:rolify/root/info_page.dart';
 import 'package:rolify/src/components/button.dart';
 import 'package:rolify/src/components/my_icons.dart';
 import 'package:rolify/src/components/player_card.dart';
-import 'package:rolify/src/components/radio.dart';
-import 'package:rolify/src/theme/texts.dart';
 
-import '../../src/components/audio_slider.dart';
+import 'search_bar.dart';
 import 'global_controls.dart';
 
 class AllSound extends StatefulWidget {
@@ -107,7 +102,7 @@ class AllSoundState extends State<AllSound> with WidgetsBindingObserver {
                       alignment: Alignment.topCenter,
                       child: Row(
                         children: <Widget>[
-                          SearchBar(
+                          MySearchBar(
                             filterController: filterController,
                             focusNode: focusNode,
                             filterAudios: filterAudios,

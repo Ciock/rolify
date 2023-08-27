@@ -14,7 +14,6 @@ import 'package:rolify/presentation_logic_holders/singletons/app_state.dart';
 import 'package:rolify/src/components/audio_slider.dart';
 import 'package:rolify/src/components/button.dart';
 import 'package:rolify/src/components/radio.dart';
-import 'package:rolify/src/components/slider.dart';
 import 'package:rolify/src/theme/texts.dart';
 
 import '../../presentation_logic_holders/playing_sounds_singleton.dart';
@@ -164,7 +163,7 @@ class PlayerWidgetState extends State<PlayerWidget> {
     _volumeController.add(value);
     AudioServiceCommands.setVolume(
         widget.audio, value * PlayingSounds().masterVolume);
-        
+
     final updatedAudio = widget.audio.copyFrom(volume: value);
     PlayingSounds().updateAudio(updatedAudio);
     AudioData.updateAudio(context, updatedAudio, refresh: false);
