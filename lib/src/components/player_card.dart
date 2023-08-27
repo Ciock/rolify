@@ -61,6 +61,13 @@ class PlayerWidgetState extends State<PlayerWidget> {
         });
       }
     });
+    eventBus.on<VolumeChange>().listen((event) {
+      if (event.path == widget.audio.path && mounted) {
+        setState(() {
+          _volumeController.add(event.value);
+        });
+      }
+    });
     AppState().audioHandler.customEvent.listen((event) {
       if (event['name'] == AudioCustomEvents.pauseAll ||
           (event['name'] == AudioCustomEvents.audioEnded &&
@@ -74,6 +81,10 @@ class PlayerWidgetState extends State<PlayerWidget> {
     loopAudio = widget.audio.loopMode == LoopMode.one;
     _volumeController.add(widget.audio.volume);
     audioImage = widget.audio.image;
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      checkIfIsPlaying();
+    });
   }
 
   @override

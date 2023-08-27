@@ -130,7 +130,9 @@ class _GlobalControlsState extends State<GlobalControls> {
 
     final playingAudios = PlayingSounds().playingAudios;
     for (final audio in playingAudios) {
-      AudioServiceCommands.setVolume(audio, audio.volume * PlayingSounds().masterVolume);
+      AudioServiceCommands.setVolume(
+          audio, audio.volume * PlayingSounds().masterVolume,
+          global: true);
       await Future.delayed(const Duration(milliseconds: 100));
     }
   }
