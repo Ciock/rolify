@@ -14,7 +14,6 @@ import 'package:rolify/presentation_logic_holders/singletons/app_state.dart';
 import 'package:rolify/src/components/audio_slider.dart';
 import 'package:rolify/src/components/button.dart';
 import 'package:rolify/src/components/radio.dart';
-import 'package:rolify/src/components/slider.dart';
 import 'package:rolify/src/theme/texts.dart';
 
 import '../../presentation_logic_holders/playing_sounds_singleton.dart';
@@ -62,19 +61,32 @@ class PlayerWidgetState extends State<PlayerWidget> {
         });
       }
     });
+    eventBus.on<VolumeChange>().listen((event) {
+      if (event.path == widget.audio.path && mounted) {
+        setState(() {
+          _volumeController.add(event.value);
+        });
+      }
+    });
     AppState().audioHandler.customEvent.listen((event) {
       if (event['name'] == AudioCustomEvents.pauseAll ||
           (event['name'] == AudioCustomEvents.audioEnded &&
               event['audioPath'] == widget.audio.path)) {
-        setState(() {
-          isPlaying = false;
-        });
+        if (mounted) {
+          setState(() {
+            isPlaying = false;
+          });
+        }
       }
     });
 
     loopAudio = widget.audio.loopMode == LoopMode.one;
     _volumeController.add(widget.audio.volume);
     audioImage = widget.audio.image;
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      checkIfIsPlaying();
+    });
   }
 
   @override
@@ -122,7 +134,7 @@ class PlayerWidgetState extends State<PlayerWidget> {
                       ),
                       const SizedBox(width: 8.0),
                       MyRadio(
-                        icon: isPlaying ? MyIcons.pause : MyIcons.play,
+                        icon: isPlaying ? MyIcons.pause : MyIcons.play(),
                         value: isPlaying,
                         onChanged: (_) {
                           if (isPlaying) {
@@ -164,7 +176,7 @@ class PlayerWidgetState extends State<PlayerWidget> {
     _volumeController.add(value);
     AudioServiceCommands.setVolume(
         widget.audio, value * PlayingSounds().masterVolume);
-        
+
     final updatedAudio = widget.audio.copyFrom(volume: value);
     PlayingSounds().updateAudio(updatedAudio);
     AudioData.updateAudio(context, updatedAudio, refresh: false);

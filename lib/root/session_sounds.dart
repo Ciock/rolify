@@ -1,8 +1,5 @@
-import 'package:file_picker/file_picker.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-import 'package:rolify/data/audios.dart';
 import 'package:rolify/entities/audio.dart';
 import 'package:rolify/presentation_logic_holders/audio_list_bloc/audio_list_bloc.dart';
 import 'package:rolify/presentation_logic_holders/audio_list_bloc/audio_list_state.dart';
@@ -10,22 +7,21 @@ import 'package:rolify/presentation_logic_holders/event_bus/stop_all_event_bus.d
 import 'package:rolify/presentation_logic_holders/playing_sounds_singleton.dart';
 import 'package:rolify/presentation_logic_holders/singletons/app_state.dart';
 import 'package:rolify/root/info_page.dart';
-import 'package:rolify/src/components/button.dart';
-import 'package:rolify/src/components/my_icons.dart';
 import 'package:rolify/src/components/player_card.dart';
 
-import 'search_bar.dart';
-import 'global_controls.dart';
+import 'all_sounds/global_controls.dart';
+import 'all_sounds/search_bar.dart';
 
-class AllSound extends StatefulWidget {
-  const AllSound({Key? key}) : super(key: key);
+class SessionSounds extends StatefulWidget {
+  const SessionSounds({Key? key}) : super(key: key);
 
   @override
-  AllSoundState createState() => AllSoundState();
+  SessionSoundsState createState() => SessionSoundsState();
 }
 
-class AllSoundState extends State<AllSound> with WidgetsBindingObserver {
-  List<Audio> audios = [], filteredAudios = [];
+class SessionSoundsState extends State<SessionSounds>
+    with WidgetsBindingObserver {
+  List<Audio> filteredAudios = [];
   TextEditingController filterController = TextEditingController();
   FocusNode focusNode = FocusNode();
   bool pauseAll = true, audioToPauseExist = false, audioToReplayExist = false;
@@ -43,6 +39,7 @@ class AllSoundState extends State<AllSound> with WidgetsBindingObserver {
         setState(() {
           audioToPauseExist = PlayingSounds().playingAudios.isNotEmpty;
           audioToReplayExist = PlayingSounds().pausedAudios.isNotEmpty;
+          filteredAudios = PlayingSounds().playingAudios;
           pauseAll = audioToPauseExist;
         });
       }
@@ -52,6 +49,7 @@ class AllSoundState extends State<AllSound> with WidgetsBindingObserver {
         setState(() {
           audioToPauseExist = PlayingSounds().playingAudios.isNotEmpty;
           audioToReplayExist = PlayingSounds().pausedAudios.isNotEmpty;
+          filteredAudios = PlayingSounds().playingAudios;
           pauseAll = audioToPauseExist;
         });
       }
@@ -73,13 +71,8 @@ class AllSoundState extends State<AllSound> with WidgetsBindingObserver {
   }
 
   Future<void> initAudios() async {
-    await AudioData.addNewAssetsAudios(context);
-    final allAudios = await AudioData.getAllAudios();
-    allAudios
-        .sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
     setState(() {
-      audios = allAudios;
-      filteredAudios = allAudios;
+      filteredAudios = PlayingSounds().playingAudios;
     });
   }
 
@@ -108,11 +101,6 @@ class AllSoundState extends State<AllSound> with WidgetsBindingObserver {
                             filterAudios: filterAudios,
                             resetTextFilter: resetTextFilter,
                           ),
-                          const SizedBox(width: 8.0),
-                          MyButton(
-                            icon: MyIcons.add,
-                            onTap: () => _openFileExplorer(context),
-                          )
                         ],
                       ),
                     ),
@@ -125,7 +113,7 @@ class AllSoundState extends State<AllSound> with WidgetsBindingObserver {
                           children: filteredAudios
                               .map(
                                 (e) => PlayerWidget(
-                                    key: Key('${e.path}_all_sounds'), audio: e),
+                                    key: Key('${e.path}_session'), audio: e),
                               )
                               .toList(),
                         )),
@@ -161,7 +149,7 @@ class AllSoundState extends State<AllSound> with WidgetsBindingObserver {
   }
 
   filterAudios(BuildContext context) async {
-    final allAudios = await AudioData.getAllAudios();
+    final allAudios = PlayingSounds().playingAudios;
 
     List<Audio> newFilteredAudios = allAudios;
     if (filterController.text != '') {
@@ -179,37 +167,6 @@ class AllSoundState extends State<AllSound> with WidgetsBindingObserver {
     return audios
         .where((audio) => audio.name.toLowerCase().contains(text.toLowerCase()))
         .toList();
-  }
-
-  void _openFileExplorer(BuildContext context) async {
-    List<PlatformFile>? paths;
-    try {
-      final result = await FilePicker.platform.pickFiles(
-        type: Theme.of(context).platform == TargetPlatform.android
-            ? FileType.audio
-            : FileType.any,
-        allowMultiple: true,
-      );
-      paths = result?.files;
-    } on PlatformException catch (e) {
-      debugPrint("Unsupported operation $e");
-    }
-    if (!mounted || paths == null) return;
-    final allAudios = await AudioData.getAllAudios();
-    for (var file in paths) {
-      final name = file.name.replaceAll('_', ' ').replaceAll('.mp3', '');
-      final audio = Audio(
-        name: name,
-        path: file.path ?? '',
-        audioSource: LocalAudioSource.file,
-      );
-      if (allAudios.contains(audio) == false) {
-        allAudios.add(audio);
-      }
-    }
-    AudioData.saveAllAudios(context, allAudios).then((value) {
-      resetTextFilter(context);
-    });
   }
 
   void navigateToInfo() {

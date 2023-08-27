@@ -35,10 +35,12 @@ class AudioServiceCommands {
         .customAction('get_loop', {"audio": audio.toJson()});
   }
 
-  static Future setVolume(Audio audio, double value) async {
-    return AppState()
+  static Future<void> setVolume(Audio audio, double value,
+      {bool global = false}) async {
+    AppState()
         .audioHandler
         .customAction('set_volume', {"audio": audio.toJson(), "param": value});
+    if (!global) eventBus.fire(VolumeChange(audio.path, value));
   }
 
   static Future getVolume(Audio audio) async {

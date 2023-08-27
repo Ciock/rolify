@@ -4,21 +4,28 @@ EventBus eventBus = EventBus();
 
 class OnAppResume {}
 
-class AudioPlayed{
+class AudioPlayed {
   final String path;
 
   AudioPlayed(this.path);
 }
 
-class AudioPaused{
+class AudioPaused {
   final String path;
 
   AudioPaused(this.path);
 }
 
-class ToggleLoop{
+class ToggleLoop {
   final String path;
   final bool value;
 
   ToggleLoop(this.path, this.value);
+}
+
+class VolumeChange {
+  final String path;
+  final double value;
+
+  VolumeChange(this.path, this.value);
 }

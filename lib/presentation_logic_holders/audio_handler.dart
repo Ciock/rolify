@@ -1,11 +1,10 @@
 import 'dart:io';
-import 'dart:ui';
 
 import 'package:audio_service/audio_service.dart';
 import 'package:flutter/services.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:rolify/entities/audio.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:rolify/entities/audio.dart';
 import 'package:rolify/presentation_logic_holders/playing_sounds_singleton.dart';
 
 enum AudioCustomEvents { audioEnded, resumeAll, pauseAll }
@@ -55,8 +54,7 @@ class MyAudioHandler extends BaseAudioHandler with QueueHandler, SeekHandler {
     if (audioPlayers.containsKey(audio.path)) {
       return audioPlayers[audio.path]!;
     } else {
-      final audioPlayer = AudioPlayer(
-          handleInterruptions: false);
+      final audioPlayer = AudioPlayer(handleInterruptions: false);
 
       audio.audioSource == LocalAudioSource.assets
           ? await audioPlayer.setAsset(audio.path)
