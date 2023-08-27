@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
@@ -63,9 +64,18 @@ class PlayerWidgetState extends State<PlayerWidget> {
     });
     eventBus.on<VolumeChange>().listen((event) {
       if (event.path == widget.audio.path && mounted) {
-        setState(() {
-          _volumeController.add(event.value);
-        });
+        double volume;
+        if (PlayingSounds().masterVolume == 0) {
+          volume = event.value;
+        } else {
+          volume = event.value / PlayingSounds().masterVolume;
+        }
+
+        if (volume != 0) {
+          setState(() {
+            _volumeController.add(volume);
+          });
+        }
       }
     });
     AppState().audioHandler.customEvent.listen((event) {
