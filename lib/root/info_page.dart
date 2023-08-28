@@ -83,20 +83,12 @@ class InfoPage extends StatelessWidget {
 
   _goToReddit() async {
     final url = Uri.parse('https://www.reddit.com/r/RolifySoundboardApp/');
-    if (await canLaunchUrl(url)) {
-      await launchUrl(url);
-    } else {
-      throw 'Could not launch $url';
-    }
+    await launchUrl(url);
   }
 
   _goToGithub() async {
     final url = Uri.parse('https://github.com/Ciock/rolify/tree/master');
-    if (await canLaunchUrl(url)) {
-      await launchUrl(url);
-    } else {
-      throw 'Could not launch $url';
-    }
+    await launchUrl(url);
   }
 
   _openPlayStore() {
